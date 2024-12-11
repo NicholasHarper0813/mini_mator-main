@@ -1,0 +1,27 @@
+{
+  "name": "minimator",
+  "version": "1.1.1",
+  "description": "Minimalist graphical editor",
+  "main": "index.js",
+  "scripts": {
+    "serve": "http-server",
+    "start": "rm -rf dist && ./node_modules/.bin/tsc -w --project tsconfig.json",
+    "build": "rm -rf dist && ./node_modules/.bin/tsc --project tsconfig.json",
+    "todo": "grep -Hrn '//#' src/"
+  },
+  "author": "maxwellito",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxwellito/minimator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maxwellito/minimator/issues"
+  },
+  "homepage": "https://github.com/maxwellito/minimator#readme",
+  "dependencies": {
+    "typescript": "^4.3.2"
+  },
+  "devDependencies": {
+    "@types/vivus": "^0.4.4"
+  }
+}

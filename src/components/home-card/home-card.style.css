@@ -1,0 +1,95 @@
+@import '../../style.css';
+
+:host {
+  position: relative;
+  scroll-snap-align: start;
+  display: inline-block;
+  width: 60vw;
+  max-width: 300px;
+  margin: 10px 24px 12px 0;
+  padding: 20px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+
+  top: 0px;
+  left: 0px;
+  box-shadow: 8px 8px 0 currentColor;
+
+  transition: 0.3s top, 0.3s left, 0.3s box-shadow;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :host(:hover) {
+    top: -8px;
+    left: -8px;
+    box-shadow: 16px 16px 0 currentColor;
+  }
+}
+
+:host .img {
+  position: relative;
+}
+:host .img:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 100%;
+}
+:host .img > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+:host .label {
+  font-size: 28px;
+  line-height: 2;
+  overflow: hidden;
+}
+
+:host .icon-xl {
+  width: 2em;
+  height: 2em;
+  display: inline-block;
+  font-size: 40px;
+  text-align: center;
+  line-height: 2em;
+  font-family: 'DM Serif Display';
+  border-radius: 50%;
+  border: 1px solid currentColor;
+}
+
+:host .label-xl {
+  font-size: 40px;
+  line-height: 1;
+}
+
+:host .bottomline {
+  display: flex;
+  justify-content: space-between;
+  line-height: 24px;
+}
+
+.icon-xl, .label-xl {
+  position: absolute;
+}
+
+.label-xl {
+  top: 2.25em;
+}
+
+.actions button {
+  background: none;
+  border: 1px solid transparent;
+  height: 22px;
+  width: 36px;
+  border-radius: 2px;
+  line-height: 22px;
+  color: inherit;
+}
+
+.actions button:hover {
+  border: 1px solid currentColor;
+}

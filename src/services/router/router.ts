@@ -55,7 +55,8 @@ export class Router
     this.onChange();
   }
 
-  destroy() {
+  destroy() 
+  {
     window.removeEventListener('hashchange', this.hashChange, false);
   }
 }

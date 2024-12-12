@@ -1,6 +1,6 @@
 import { Component } from '../base.cmp.js';
-import { PageComponent } from '../page.cmp.js';
 import { icon } from '../../services/feather.icons.js';
+import { PageComponent } from '../page.cmp.js';
 
 const template = `
   <a class="breadcrumb" href="#/home">☜ homepage</a>

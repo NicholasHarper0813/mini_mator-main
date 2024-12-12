@@ -5,19 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="minimalist graphical editor in your browser and on the go">
-    <link rel="shortcut icon" href="assets/visuals/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-
-    <!-- Open Graph -->
     <meta property="og:title" content="minimator" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://minimator.app" />
     <meta property="og:image" content="https://minimator.app/assets/visuals/minimator_banner.png" />
-
-    <!-- Progressive Web App -->
-    <link rel="manifest" href="./manifest.json" />
     <meta name="theme-color" content="#14171b" />
-    <link rel="apple-touch-icon" href="assets/visuals/minimator_icon_512.png" />
     <meta name="apple-mobile-web-app-title" content="minimator" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -25,9 +18,11 @@
     <meta name="MobileOptimized" content="400" />
     <meta name="msapplication-TileImage" content="assets/visuals/minimator_icon_512.png"/>
     <meta name="msapplication-TileColor" content="#000000" />
-
-    <!-- Base style -->
+    <link rel="shortcut icon" href="assets/visuals/favicon.png" />
+    <link rel="apple-touch-icon" href="assets/visuals/minimator_icon_512.png" />
     <link rel="stylesheet" href="./src/style.css" />
+    <link rel="manifest" href="./manifest.json" />
+
   </head>
   <body>
     <div class="app">
@@ -53,7 +48,6 @@
     import './dist/main.js';
   </script>
   <script type="text/javascript">
-    // Set up service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js');
     }

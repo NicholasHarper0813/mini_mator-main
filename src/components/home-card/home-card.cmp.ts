@@ -9,7 +9,8 @@ import { generateBaseSVG } from '../surface/surface.cmp.js';
 export class HomeCardComponent extends BaseComponent {
   constructor(data?: StorageIndex) {
     let template: string;
-    if (data) {
+    if (data) 
+    {
       template = `
         <div class="img">
           <div class="content" data-ref="imageContainer"></div>
@@ -24,7 +25,9 @@ export class HomeCardComponent extends BaseComponent {
           </div>
         </div>
       `;
-    } else {
+    } 
+    else 
+    {
       template = `
         <div class="icon-xl">+</div>
         <h2 class="label label-xl">Create<br/>a new<br/>canvas</h2>
@@ -35,7 +38,8 @@ export class HomeCardComponent extends BaseComponent {
     }
     super(template);
 
-    if (!data) {
+    if (!data) 
+    {
       return;
     }
 
@@ -50,7 +54,8 @@ export class HomeCardComponent extends BaseComponent {
       e.stopPropagation();
 
       const newName = window.prompt(`Rename "${data.title}"`, data.title) || '';
-      if (!newName) {
+      if (!newName) 
+      {
         return;
       } 
       store.renameItem(data.id, newName);
@@ -61,7 +66,8 @@ export class HomeCardComponent extends BaseComponent {
       e.preventDefault();
       e.stopPropagation();
 
-      if (!window.confirm(`Do you want to duplicate "${data.title}"?`)) {
+      if (!window.confirm(`Do you want to duplicate "${data.title}"?`))
+      {
         return;
       }
       store.createItem(`${data.title} copy`, projectData);
@@ -71,7 +77,8 @@ export class HomeCardComponent extends BaseComponent {
       e.preventDefault();
       e.stopPropagation();
 
-      if(window.confirm(`Are you sure to delete "${data.title}"? There's no going back.`)) {
+      if(window.confirm(`Are you sure to delete "${data.title}"? There's no going back.`)) 
+      {
         store.deleteItem(data.id);
         this.remove();
       }

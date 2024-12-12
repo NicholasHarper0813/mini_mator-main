@@ -3,8 +3,8 @@ import { PageComponent } from '../page.cmp.js';
 import { icon } from '../../services/feather.icons.js';
 
 @Component('vivus-cmp', './src/components/vivus/vivus.style.css')
-export class VivusComponent extends PageComponent {
-
+export class VivusComponent extends PageComponent 
+{
   vivus: Vivus | undefined;
 
   constructor(rawSVG: string, onExit: () => void) {
@@ -42,10 +42,13 @@ export class VivusComponent extends PageComponent {
     closeButton.addEventListener('click', onExit);
   }
 
-  exit() {
-    if (this.vivus) {
+  exit() 
+  {
+    if (this.vivus) 
+    {
       this.vivus.destroy();
     }
+    
     return super.exit();
   }
 }

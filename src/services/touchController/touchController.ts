@@ -1,28 +1,16 @@
-/**
- * The touch Controller will handle the touch events
- * on the main canvas to handle the basic gestures
- * of a graphical editor on a tablet or desktop.
- *
- * Things to handle:
- * - one finger
- *     tap: nothing
- *     move: draw
- * - double fingers
- *     tap: undo
- *     move: scale
- * - three fingers
- *     tap: redo
- *     move: nothing
- * - more fingers
- *     please zoidberg stop licking that screen
- */
-
 import { Shortcut } from "../shortcut/shortcut";
-
-// 100ms is the max time to start/end a gesture
 const gestureTransitionTime = 100;
 
-export enum GESTURE {
+export enum STATE 
+{
+  'START',
+  'UPDATE',
+  'END',
+  'NONE',
+}
+
+export enum GESTURE 
+{
   'NONE',
   'TAP',
   'DRAG',
@@ -32,14 +20,8 @@ export enum GESTURE {
   'VOID',
 }
 
-export enum STATE {
-  'START',
-  'UPDATE',
-  'END',
-  'NONE',
-}
-
-export interface EventData {
+export interface EventData 
+{
   origin: {
     x: number;
     y: number;
@@ -54,7 +36,8 @@ export interface EventData {
 
 type eventCallback = (type: GESTURE, state: STATE, data?: EventData) => void;
 
-export class TouchController {
+export class TouchController 
+{
   pointers: Map<number, any>;
   callbacks: eventCallback[];
   lastData?: EventData;
@@ -62,87 +45,93 @@ export class TouchController {
   gestureMaxTouches = 0;
   shortcutListeners = [];
 
-  constructor(public el: SVGElement, public touchOnly = false, public shortcut?: Shortcut) {
-
-    // Internals
+  constructor(public el: SVGElement, public touchOnly = false, public shortcut?: Shortcut) 
+  {
     this.pointers = new Map();
     this.callbacks = [];
-
-    // Bind listeners
-    this.touchstart = this.touchstart.bind(this);
-    this.touchmove = this.touchmove.bind(this);
-    this.touchend = this.touchend.bind(this);
-
     this.mousemove = this.mousemove.bind(this);
     this.mousedown = this.mousedown.bind(this);
     this.mouseup = this.mouseup.bind(this);
+    this.touchstart = this.touchstart.bind(this);
+    this.touchmove = this.touchmove.bind(this);
+    this.touchend = this.touchend.bind(this);
     this.wheel = this.wheel.bind(this);
 
-    // Start listening
     this.el.addEventListener('touchstart', this.touchstart);
     this.el.addEventListener('touchmove', this.touchmove);
     this.el.addEventListener('touchend', this.touchend);
     this.el.addEventListener('touchcancel', this.touchend);
 
-    if (!touchOnly) {
-      // Listen to click and scrolls
+    if (!touchOnly) 
+    {
       this.el.addEventListener('mousedown', this.mousedown);
       this.el.addEventListener('mousemove', this.mousemove);
       this.el.addEventListener('mouseup', this.mouseup);
       this.el.addEventListener('wheel', this.wheel);
     }
 
-    if (shortcut) {
+    if (shortcut) 
+    {
       shortcut.on('zoomin', () => this.triggerZoom(1.25));
       shortcut.on('zoomout', () => this.triggerZoom(.75));
     }
   }
 
-  on(callback: eventCallback) {
+  on(callback: eventCallback) 
+  {
     this.callbacks.push(callback);
   }
 
-  off(callback: eventCallback) {
+  off(callback: eventCallback) 
+  {
     const cbIndex = this.callbacks.indexOf(callback);
-    if (cbIndex !== -1) {
+    if (cbIndex !== -1) 
+    {
       this.callbacks.splice(cbIndex, 1);
     }
   }
 
-  //# Create a decorator for this method
-  blockEvent(e: Event) {
+  blockEvent(e: Event) 
+  {
     e.stopPropagation();
     e.preventDefault();
   }
 
-  // Touch listeners
-  touchstart(e: TouchEvent) {
+  touchstart(e: TouchEvent) 
+  {
     this.blockEvent(e);
-    if (this.isCurrentEventDetected()) {
+    if (this.isCurrentEventDetected())
+    {
       return;
     }
-    for (let i = e.changedTouches.length - 1; i >= 0; i--) {
+    for (let i = e.changedTouches.length - 1; i >= 0; i--) 
+    {
       let touch = e.changedTouches.item(i);
       this.pointers.set(touch?.identifier || 0, touch);
     }
     this.gestureMaxTouches = e.touches.length;
   }
 
-  touchmove(e: TouchEvent) {
+  touchmove(e: TouchEvent) 
+  {
     this.blockEvent(e);
-    if (this.isCurrentEventDetected()) {
+    if (this.isCurrentEventDetected()) 
+    {
       this.updateCurrentEvent(e);
       return;
     }
-    for (let i = e.changedTouches.length - 1; i >= 0; i--) {
+    for (let i = e.changedTouches.length - 1; i >= 0; i--) 
+    {
       let touch = e.changedTouches.item(i);
-      if (!touch) {
+      if (!touch) 
+      {
         continue;
       }
       let pointer = this.pointers.get(touch.identifier);
       let x = Math.abs(touch.clientX - pointer.clientX);
       let y = Math.abs(touch.clientY - pointer.clientY);
-      if (x + y > 20) {
+      if (x + y > 20) 
+      {
         let { length } = e.touches;
         const defaultData = {
           origin: {
@@ -161,11 +150,16 @@ export class TouchController {
         defaultData.origin.x /= this.pointers.size;
         defaultData.origin.y /= this.pointers.size;
 
-        if (length === 1) {
+        if (length === 1) 
+        {
           this.setEventType(GESTURE.DRAG, defaultData);
-        } else if (length === 2) {
+        } 
+        else if (length === 2) 
+        {
           this.setEventType(GESTURE.SCALE, defaultData);
-        } else {
+        } 
+        else 
+        {
           this.setEventType(GESTURE.VOID);
         }
       }
@@ -176,28 +170,34 @@ export class TouchController {
     this.blockEvent(e);
     for (let i = e.changedTouches.length - 1; i >= 0; i--) {
       let touch = e.changedTouches.item(i);
-      if (!touch) {
+      if (!touch) 
+      {
         continue;
       }
       this.pointers.delete(touch.identifier);
     }
-    if (e.touches.length === 0) {
-      if (!this.currentEvent /* || this.currentEvent === GESTURE.NONE */) {
-        if (this.gestureMaxTouches === 1) {
+    if (e.touches.length === 0) 
+    {
+      if (!this.currentEvent /* || this.currentEvent === GESTURE.NONE */) 
+      {
+        if (this.gestureMaxTouches === 1) 
+        {
           this.setEventType(GESTURE.TAP);
-        } else if (this.gestureMaxTouches === 2) {
+        } 
+        else if (this.gestureMaxTouches === 2) 
+        {
           this.setEventType(GESTURE.UNDO);
-        } else {
+        } 
+        else 
+        {
           this.setEventType(GESTURE.REDO);
         }
       }
       this.setEventType(GESTURE.NONE);
       this.gestureMaxTouches = 0;
-      // TODO clear everything
     }
   }
-
-  // Mouse Listeners
+  
   mousedown(e: MouseEvent) {
     this.blockEvent(e);
     const defaultData = {
@@ -217,12 +217,15 @@ export class TouchController {
   mousemove(e: MouseEvent) {
     this.blockEvent(e);
 
-    if (this.currentEvent === GESTURE.SCALE) {
+    if (this.currentEvent === GESTURE.SCALE) 
+    {
       this.setEventType(GESTURE.NONE);
     }
-    else if (this.currentEvent === GESTURE.DRAG) {   
+    else if (this.currentEvent === GESTURE.DRAG) 
+    {   
       const data = this.lastData;
-      if (!data) {
+      if (!data)
+      {
         return;
       }
       data.drag = {
@@ -241,7 +244,6 @@ export class TouchController {
   wheel(e: WheelEvent) {
     this.blockEvent(e);
 
-    // Init gesture
     if (this.currentEvent !== GESTURE.SCALE) {
       this.setEventType(GESTURE.SCALE, {
         origin: { x: e.pageX, y: e.pageY },
@@ -251,7 +253,8 @@ export class TouchController {
     }
 
     const {lastData} = this;
-    if (!lastData?.drag) {
+    if (!lastData?.drag) 
+    {
       return;
     }
     lastData.drag.x -= e.deltaX;
@@ -259,15 +262,18 @@ export class TouchController {
     this.triggerUpdate(lastData);
   }
 
-  isCurrentEventDetected() {
+  isCurrentEventDetected() 
+  {
     return this.currentEvent !== GESTURE.NONE;
   }
 
-  updateCurrentEvent(e: TouchEvent) {
+  updateCurrentEvent(e: TouchEvent) 
+  {
     switch (this.currentEvent) {
       case GESTURE.DRAG:
         const b = e.touches.item(0);
-        if (!b) {
+        if (!b) 
+        {
           return;
         }
         const a = this.pointers.get(b.identifier);
@@ -285,7 +291,8 @@ export class TouchController {
       case GESTURE.SCALE:
         const b1 = e.touches.item(0);
         const b2 = e.touches.item(1);
-        if (!b1 || !b2) {
+        if (!b1 || !b2) 
+        {
           return;
         }
         const a1 = this.pointers.get(b1.identifier);
@@ -322,20 +329,24 @@ export class TouchController {
     this.broadcast(STATE.START, eventData);
   }
 
-  triggerUpdate(data: EventData) {
+  triggerUpdate(data: EventData) 
+  {
     this.broadcast(STATE.UPDATE, data);
   }
 
-  broadcast(eventStatus: STATE, eventData?: EventData) {
+  broadcast(eventStatus: STATE, eventData?: EventData) 
+  {
     const type = this.currentEvent;
-    if (type === GESTURE.NONE || type === GESTURE.VOID) {
+    if (type === GESTURE.NONE || type === GESTURE.VOID) 
+    {
       return;
     }
     this.lastData = eventData;
     this.callbacks.forEach((cb) => cb(type, eventStatus, eventData));
   }
 
-  triggerZoom(scale: number) {
+  triggerZoom(scale: number) 
+  {
     const data = {
       origin: { x: -1, y: -1 },
       drag: { x: 0, y: 0 },
@@ -346,20 +357,19 @@ export class TouchController {
   }
 
   destroy() {
-    // Stop listening mouse/touch events
     this.el.removeEventListener('touchstart', this.touchstart);
     this.el.removeEventListener('touchmove', this.touchmove);
     this.el.removeEventListener('touchend', this.touchend);
     this.el.removeEventListener('touchcancel', this.touchend);
 
-    if (!this.touchOnly) {
+    if (!this.touchOnly) 
+    {
       this.el.removeEventListener('mousemove', this.mousemove);
       this.el.removeEventListener('mousedown', this.mousedown);
       this.el.removeEventListener('mouseup', this.mouseup);
       this.el.removeEventListener('wheel', this.wheel);
     }
 
-    // Clear listeners
     this.callbacks = [];
   }
 }

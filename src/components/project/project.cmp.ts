@@ -1,17 +1,15 @@
 import { Component } from '../base.cmp.js';
 import { PageComponent } from '../page.cmp.js';
-
-import { SurfaceComponent, SurfaceMode } from '../surface/surface.cmp.js';
 import { ToolbarComponent } from '../toolbar/toolbar.cmp.js';
+import { SurfaceComponent, SurfaceMode } from '../surface/surface.cmp.js';
 import { TouchController } from '../../services/touchController/touchController.js';
-import { VivusComponent } from '../vivus/vivus.cmp.js';
 import { downloader, share, buildPNG } from '../../services/features.js';
 import { Shortcut } from '../../services/shortcut/shortcut.js';
+import { VivusComponent } from '../vivus/vivus.cmp.js';
 import { store } from '../../store.js';
 
 @Component('project-page', './src/components/project/project.style.css')
 export class ProjectComponent extends PageComponent {
-  
   surface: SurfaceComponent;
   touchHandler: TouchController;
   toolbar: ToolbarComponent;
@@ -28,7 +26,7 @@ export class ProjectComponent extends PageComponent {
     this.title = `${item?.title} - minimator`;
 
     const surface = new SurfaceComponent(projectData);
-    (window as any).ma = surface; //# Debug purposes
+    (window as any).ma = surface;
     surface.onResize();
     surface.onChange = () => {
       projectData.content = surface.content.innerHTML;
@@ -52,7 +50,8 @@ export class ProjectComponent extends PageComponent {
     this.shadowRoot?.appendChild(toolbar);
     toolbar.on((eventName, eventData) => {
       let svgOutput;
-      switch (eventName) {
+      switch (eventName) 
+      {
         case 'minus':
           toolbar.setThickness(surface.decreaseThickness());
           projectData.thickness = surface.thickness;
@@ -102,7 +101,8 @@ export class ProjectComponent extends PageComponent {
     this.toolbar = toolbar;
   }
 
-  exit() {
+  exit() 
+  {
     window.removeEventListener('resize', this.surface.onResize);
     this.shortcutBindings.destroy();
     this.toolbar.destroy();

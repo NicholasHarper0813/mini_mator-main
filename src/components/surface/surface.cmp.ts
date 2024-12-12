@@ -34,10 +34,8 @@ export class SurfaceComponent extends BaseComponent {
   drawingStartPoint?: Coordinate;
   fngPoint?: Coordinate;
   firstDeleted?: SVGElement;
-
   isMoveKeyPressed = false;
   isCurrentEventMove = false;
-
   currentElement?: SVGLineElement | SVGPathElement;
   changeThrottle: number = 0;
   onChange = () => {};
@@ -45,17 +43,12 @@ export class SurfaceComponent extends BaseComponent {
   constructor(projectData:ProjectItem) {
     super(generateBaseSVG(projectData));
  
-    // Save referenced elements
     this.el = this.refs.get('svg') as SVGElement;
     this.dots = this.refs.get('dots') as SVGGElement;
     this.content = this.refs.get('content') as SVGGElement;
-        
-    // Set params
     this.width = projectData.width;
     this.height = projectData.height;
     this.setThickness(projectData.thickness);
-
-    // Bind listener
     this.eventInput = this.eventInput.bind(this);
     this.onResize = this.onResize.bind(this);
   }
@@ -70,31 +63,32 @@ export class SurfaceComponent extends BaseComponent {
     this.el.setAttribute('viewBox', viewBox.join(' '));
   }
 
-  onResize() {
-    // const rect = this.getBoundingClientRect();
+  onResize() 
+  {
     this.rect = {
       width: (document as any).clientWidth || window.innerWidth,
       height: (document as any).clientHeight || window.innerHeight
     } as DOMRect;
 
     const padding = 3;
-
+    const wWidth = this.rect.width;
+    const wHeight = this.rect.height;
+    const wRatio = wWidth / wHeight;
     const cWidth = this.gap * (this.width + 2 * padding);
     const cHeight = this.gap * (this.height + 2 * padding);
     const cRatio = cWidth / cHeight;
 
-    const wWidth = this.rect.width;
-    const wHeight = this.rect.height;
-    const wRatio = wWidth / wHeight;
-
-    if (cRatio > wRatio) {
+    if (cRatio > wRatio)
+    {
       this.viewBox = [
         -padding * this.gap,
         -padding * this.gap -cHeight * ((1/wRatio)/(1/cRatio)-1) / 2,
         cWidth,
         cHeight * ((1/wRatio)/(1/cRatio)),
       ];
-    } else {
+    }
+    else 
+    {
       this.viewBox = [
         -padding * this.gap -cWidth * (wRatio/cRatio - 1) / 2,
         -padding * this.gap,
@@ -107,29 +101,34 @@ export class SurfaceComponent extends BaseComponent {
     this.scale = this.viewBox[2] / this.rect.width;
   }
 
-  eventInput(type: GESTURE, state: STATE, data?: EventData) {
-    if (state === STATE.START) {
+  eventInput(type: GESTURE, state: STATE, data?: EventData) 
+  {
+    if (state === STATE.START)
+    {
       this.isCurrentEventMove = this.isMoveKeyPressed;
     }
 
-    if (data?.origin.x === -1) {
+    if (data?.origin.x === -1) 
+    {
       data.origin.x = this.rect.width / 2;
       data.origin.y = this.rect.height / 2;
     }
 
-    if (type === GESTURE.SCALE || this.isCurrentEventMove) {
-      if (!data) {
+    if (type === GESTURE.SCALE || this.isCurrentEventMove) 
+    {
+      if (!data) 
+      {
         return;
       }
+      
       const dataScale = data?.scale || 1;
-      if (state === STATE.UPDATE) {
+      if (state === STATE.UPDATE) 
+      {
         const opX = data.origin.x / this.rect.width;
         const opY = data.origin.y / this.rect.height;
         const oX = this.viewBox[0] + this.viewBox[2] * opX;
         const oY = this.viewBox[1] + this.viewBox[3] * opY;
-
         const dragScale = this.scale * (1 / dataScale);
-
         const viewBox = [
           oX -
             (oX - this.viewBox[0]) * (1 / dataScale) -
@@ -141,46 +140,63 @@ export class SurfaceComponent extends BaseComponent {
           this.viewBox[3] * (1 / dataScale),
         ];
         this.el.setAttribute('viewBox', viewBox.join(' '));
-      } else if (state === STATE.END) {
+      } 
+      else if (state === STATE.END) 
+      {
         const viewBox = this.el.getAttribute('viewBox');
-        if (viewBox) {
+        if (viewBox) 
+        {
           this.viewBox = viewBox.split(' ').map((x) => parseFloat(x));
           this.el.setAttribute('viewBox', this.viewBox.join(' '));
           this.scale *= 1 / dataScale;
         }
       }
-    } else if (type === GESTURE.DRAG) {
-      if (!data) {
+    } 
+    else if (type === GESTURE.DRAG) 
+    {
+      if (!data) 
+      {
         return;
       }
 
       // Eraser mode
-      if (this.mode === SurfaceMode.ERASER_MODE) {
-        
+      if (this.mode === SurfaceMode.ERASER_MODE) 
+      {
         var target = this.shadowRoot?.elementFromPoint(
           data.origin.x + data.drag.x, 
           data.origin.y + data.drag.y
         ) as SVGElement;
-        if (!target || target?.parentNode !== this.content) {
-          if (state === STATE.END && this.firstDeleted) {
+        if (!target || target?.parentNode !== this.content)
+        {
+          if (state === STATE.END && this.firstDeleted) 
+          {
             this.firstDeleted.removeAttribute('stroke');
-            if (this.firstDeleted.parentNode === this.content) {
+            if (this.firstDeleted.parentNode === this.content) 
+            {
               this.content.removeChild(this.firstDeleted);
             }
             this.firstDeleted = undefined;
           }
           return;
         }
-        if (state === STATE.START) {
+        if (state === STATE.START) 
+        {
           this.firstDeleted = target;
           target.setAttribute('stroke', 'rgba(0,0,0,0)');
-        } else if (state === STATE.UPDATE) {
-          if (this.firstDeleted === target) {
+        } 
+        else if (state === STATE.UPDATE) 
+        {
+          if (this.firstDeleted === target) 
+          {
             return;
-          } else {
+          } 
+          else 
+          {
             this.content.removeChild(target);
           }
-        } else if (state === STATE.END) {
+        } 
+        else if (state === STATE.END) 
+        {
           this.content.removeChild(target);
         } 
         this.history.add({
@@ -194,23 +210,28 @@ export class SurfaceComponent extends BaseComponent {
 
       }
 
-      if (state === STATE.START) {
+      if (state === STATE.START) 
+      {
         this.drawingStartPoint = this.coordToDot(data.origin);
         this.fngPoint = this.drawingStartPoint;
-      } else if (!this.drawingStartPoint) {
+      } 
+      else if (!this.drawingStartPoint) 
+      {
         return;
-      } else if (state === STATE.UPDATE) {
-        // Find the closest dot to where the finger is
+      } 
+      else if (state === STATE.UPDATE) 
+      {
         const fngPoint = this.coordToDot({
           x: data.origin.x + data.drag.x,
           y: data.origin.y + data.drag.y,
         });
-        if (!fngPoint || !this.fngPoint) {
+        if (!fngPoint || !this.fngPoint) 
+        {
           return;
         }
 
-        // Trigger update if the finger is different than the stored one
-        if (fngPoint.x !== this.fngPoint.x || fngPoint.y !== this.fngPoint.y) {
+        if (fngPoint.x !== this.fngPoint.x || fngPoint.y !== this.fngPoint.y) 
+        {
           this.fngPoint = fngPoint;
           const vector = {
             x: this.fngPoint.x - this.drawingStartPoint.x,
@@ -220,24 +241,27 @@ export class SurfaceComponent extends BaseComponent {
             x: Math.abs(vector.x),
             y: Math.abs(vector.y),
           };
-          // return;
 
-          if (abxVector.x < abxVector.y / 2) {
+          if (abxVector.x < abxVector.y / 2) 
+          {
             this.makeLine();
-          } else if (abxVector.y < abxVector.x / 2) {
+          } 
+          else if (abxVector.y < abxVector.x / 2) 
+          {
             this.makeLine();
-          } /* if (Math.abs(vector.x) == Math.abs(vector.y)) */ else {
-            this.makeRound(data.drag);
-          } /* else {
-            return;
-          }*/
+          }
         }
-      } else if (state === STATE.END) {
-        if (this.currentElement) {
-          // Prohibit dots
-          if (data.drag.x === 0 && data.drag.y === 0) {
+      } 
+      else if (state === STATE.END) 
+      {
+        if (this.currentElement) 
+        {
+          if (data.drag.x === 0 && data.drag.y === 0)
+          {
             this.currentElement.remove();
-          } else {
+          } 
+          else 
+          {
             this.currentElement.removeAttribute('class');
             this.history.add({
               type: HistoryActionType.ADD,
@@ -251,27 +275,37 @@ export class SurfaceComponent extends BaseComponent {
         this.drawingStartPoint = undefined;
         this.fngPoint = undefined;
       }
-    } else if (type === GESTURE.UNDO && state === STATE.END) {
+    } 
+    else if (type === GESTURE.UNDO && state === STATE.END) 
+    {
       this.undo()
-    } else if (type === GESTURE.REDO && state === STATE.END) {
+    } 
+    else if (type === GESTURE.REDO && state === STATE.END) 
+    {
       this.redo()
     }
   }
 
-  undo() {
+  undo() 
+  {
     const action = this.history.undo();
-    if (!action) {
+    if (!action) 
+    {
       return;
     }
     this.callToChange();
-    switch(action.type) {
+    switch(action.type) 
+    {
       case HistoryActionType.ADD:
         this.content.removeChild(action.element);
         break;
       case HistoryActionType.REMOVE:
-        if (action.position >= this.content.children.length) {
+        if (action.position >= this.content.children.length) 
+        {
           this.content.appendChild(action.element);
-        } else {
+        } 
+        else 
+        {
           this.content.insertBefore(action.element, this.content.children[action.position]);
         }
     }
@@ -279,47 +313,61 @@ export class SurfaceComponent extends BaseComponent {
 
   redo() {
     const action = this.history.redo();
-    if (!action) {
+    if (!action) 
+    {
       return;
     }
     this.callToChange();
-    switch(action.type) {
+    switch(action.type) 
+    {
       case HistoryActionType.REMOVE:
         this.content.removeChild(action.element);
         break;
       case HistoryActionType.ADD:
-        if (action.position >= this.content.children.length) {
+        if (action.position >= this.content.children.length) 
+        {
           this.content.appendChild(action.element);
-        } else {
+        } 
+        else 
+        {
           this.content.insertBefore(action.element, this.content.children[action.position]);
         }
     }
   }
 
-  setMove(isOn?: boolean) {
+  setMove(isOn?: boolean) 
+  {
     this.isMoveKeyPressed = !!isOn;
-    if (isOn) {
+    if (isOn) 
+    {
       this.classList.add('grab');
-    } else {
+    } 
+    else 
+    {
       this.classList.remove('grab');
     }
   }
 
-  callToChange () {
-    if (this.changeThrottle) {
+  callToChange () 
+  {
+    if (this.changeThrottle) 
+    {
       clearTimeout(this.changeThrottle)
     }
     this.changeThrottle = window.setTimeout(this.onChange, 2000);
   }
 
-  coordToPoint(scrOriginPx: EventData['origin']) {
-    return {
+  coordToPoint(scrOriginPx: EventData['origin']) 
+  {
+    return 
+    {
       x: this.viewBox[0] + this.viewBox[2] * (scrOriginPx.x / this.rect.width),
       y: this.viewBox[1] + this.viewBox[3] * (scrOriginPx.y / this.rect.height),
     };
   }
 
-  coordToDot(scrOriginPx: EventData['origin']) {
+  coordToDot(scrOriginPx: EventData['origin']) 
+  {
     const cnvOriginPx = this.coordToPoint(scrOriginPx);
     const cnvWidth = this.gap * this.width;
     const cnvHeight = this.gap * this.height;
@@ -327,8 +375,8 @@ export class SurfaceComponent extends BaseComponent {
       cnvOriginPx.x < 0 ||
       cnvOriginPx.x > cnvWidth ||
       cnvOriginPx.y < 0 ||
-      cnvOriginPx.y > cnvHeight
-    ) {
+      cnvOriginPx.y > cnvHeight ) 
+    {
       return;
     }
     cnvOriginPx.x = Math.floor(cnvOriginPx.x / this.gap);
@@ -336,11 +384,15 @@ export class SurfaceComponent extends BaseComponent {
     return cnvOriginPx;
   }
 
-  makeLine() {
-    if (!this.drawingStartPoint || !this.fngPoint) {
+  makeLine() 
+  {
+    if (!this.drawingStartPoint || !this.fngPoint) 
+    {
       return;
     }
-    if (this.currentElement) {
+    
+    if (this.currentElement) 
+    {
       this.currentElement.remove();
     }
 
@@ -351,9 +403,12 @@ export class SurfaceComponent extends BaseComponent {
       y2: this.fngPoint.y,
     };
 
-    if (Math.abs(props.x2 - props.x1) > Math.abs(props.y2 - props.y1)) {
+    if (Math.abs(props.x2 - props.x1) > Math.abs(props.y2 - props.y1)) 
+    {
       props.y2 = props.y1;
-    } else {
+    } 
+    else 
+    {
       props.x2 = props.x1;
     }
 
@@ -364,57 +419,64 @@ export class SurfaceComponent extends BaseComponent {
     line.setAttribute('y2', `${(props.y2 + 0.5) * this.gap}`);
     line.classList.add('pending');
     this.content.appendChild(line);
-
     this.currentElement = line;
   }
 
-  makeRound(drag: Coordinate) {
-    if (!this.drawingStartPoint || !this.fngPoint) {
+  makeRound(drag: Coordinate) 
+  {
+    if (!this.drawingStartPoint || !this.fngPoint) 
+    {
       return;
     }
-    if (this.currentElement) {
+    
+    if (this.currentElement) 
+    {
       this.currentElement.remove();
     }
 
-    // Find vector on diagonal axis
     const vector = {
       x: this.fngPoint.x - this.drawingStartPoint.x,
       y: this.fngPoint.y - this.drawingStartPoint.y,
     };
+    
     let maxAxis = Math.max(Math.abs(vector.x), Math.abs(vector.y));
     vector.x = (vector.x > 0 ? 1 : -1) * maxAxis;
     vector.y = (vector.y > 0 ? 1 : -1) * maxAxis;
 
-    // Test if the destination is in the map
     const dest = {
       x: this.drawingStartPoint.x + vector.x,
       y: this.drawingStartPoint.y + vector.y
     };
     
-    if (dest.x < 0) {
+    if (dest.x < 0) 
+    {
       maxAxis += dest.x;
     }
-    if (dest.y < 0) {
+    if (dest.y < 0) 
+    {
       maxAxis += dest.y;
     }
-    if (dest.x >= this.width) {
+    if (dest.x >= this.width)
+    {
       maxAxis += (this.width - dest.x - 1);      
     }
-    if (dest.y >= this.height) {
+    if (dest.y >= this.height) 
+    {
       maxAxis += (this.height - dest.y -1);
     }
     vector.x = (vector.x > 0 ? 1 : -1) * maxAxis;
     vector.y = (vector.y > 0 ? 1 : -1) * maxAxis;
 
-    // Define curve points
     const p1 = {
       x: (this.drawingStartPoint.x + 0.5) * this.gap,
       y: (this.drawingStartPoint.y + 0.5) * this.gap,
     };
+    
     const p2 = {
       x: (this.drawingStartPoint.x + vector.x + 0.5) * this.gap,
       y: (this.drawingStartPoint.y + vector.y + 0.5) * this.gap,
     };
+    
     const v = {
       x: p2.x - p1.x,
       y: p2.y - p1.y,
@@ -424,8 +486,10 @@ export class SurfaceComponent extends BaseComponent {
       x: drag.x - this.drawingStartPoint.x / this.width,
       y: drag.y - this.drawingStartPoint.y / this.height,
     };
+    
     let isA = Math.abs(derivate.x) < Math.abs(derivate.y);
-    if (derivate.x * derivate.y < 0) {
+    if (derivate.x * derivate.y < 0) 
+    {
       isA = !isA;
     }
 
@@ -445,47 +509,52 @@ export class SurfaceComponent extends BaseComponent {
     path.setAttribute('d', isA ? dA : dB);
     path.classList.add('pending');
     this.content.appendChild(path);
-
     this.currentElement = path;
   }
 
-  // Controls
-  increaseThickness() {
+  increaseThickness()
+  {
     return this.setThickness(this.thickness + 1);
   }
 
-  decreaseThickness() {
+  decreaseThickness() 
+  {
     return this.setThickness(this.thickness - 1);
   }
 
-  setThickness(thickness = 3) {
+  setThickness(thickness = 3) 
+  {
     this.thickness = Math.min(10, Math.max(1, thickness));
     this.content.setAttribute('stroke-width', `${this.thickness}`);
     return this.thickness;
   }
 
   toggleGrid() {
-    if (this.dots.style.display === 'none') {
+    if (this.dots.style.display === 'none') 
+    {
       this.dots.style.display = 'inherit';
-    } else {
+    } 
+    else 
+    {
       this.dots.style.display = 'none';
     }
   }
 
-  setMode(mode: SurfaceMode) {
+  setMode(mode: SurfaceMode) 
+  {
     this.mode = mode;
   }
 
-  // Extract SVG
-  extractSVG(margin = 2, scaleTo?: number) {
+  extractSVG(margin = 2, scaleTo?: number) 
+  {
     const doubleMargin = margin * 2;
     const offset = margin * this.gap;
     const width = (this.width + doubleMargin) * this.gap;
     const height = (this.height + doubleMargin) * this.gap;
     const ratio = scaleTo ? (scaleTo / Math.max(width, height)) : 1;
     const newDotId = generateDotId();
-
     const svg = this.el.cloneNode(true) as SVGElement;
+    
     svg.setAttribute('width', `${Math.round(width * ratio)}`);
     svg.setAttribute('height', `${Math.round(height * ratio)}`);
     svg.setAttribute('viewBox', `${-offset},${-offset},${width},${height}`);
@@ -495,15 +564,18 @@ export class SurfaceComponent extends BaseComponent {
     return svg;
   }
 
-  destroy() {
-    if (this.changeThrottle) {
+  destroy()
+  {
+    if (this.changeThrottle) 
+    {
       clearTimeout(this.changeThrottle)
       this.onChange();
     }
   }
 }
 
-function generateDotId() {
+function generateDotId() 
+{
   return 'dot-'+btoa(`${Math.random()*(2**53)}`);
 }
 

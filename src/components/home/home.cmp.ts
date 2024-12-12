@@ -1,8 +1,8 @@
+import { store } from '../../store.js';
 import { Component } from '../base.cmp.js';
 import { PageComponent } from '../page.cmp.js';
-import { HomeCardComponent } from '../home-card/home-card.cmp.js';
 import { ThemeSwitchComponent } from '../theme-switch/theme-switch.cmp.js';
-import { store } from '../../store.js';
+import { HomeCardComponent } from '../home-card/home-card.cmp.js';
 
 const template = `
   <div class="top">
@@ -21,16 +21,16 @@ const template = `
 `;
 
 @Component('home-page', './src/components/home/home.style.css')
-export class HomeComponent extends PageComponent {
+export class HomeComponent extends PageComponent
+{
   title = 'minimator';
-  constructor() {
+  constructor() 
+  {
     super(template);
 
     const carousel = this.refs.get('carousel') as Element;
-
-    //# Find a nicer way to import this component
+    
     console.log(ThemeSwitchComponent)
-
     const createCard = new HomeCardComponent();
     carousel.append(createCard);
     createCard.onclick = () => (location.hash = '#/create');
@@ -51,7 +51,8 @@ export class HomeComponent extends PageComponent {
     }
   }
 
-  exit() {
+  exit() 
+  {
     store.onCreate = undefined;
     return super.exit();
   }

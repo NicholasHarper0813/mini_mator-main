@@ -14,16 +14,19 @@ export function Component(name: string, cssLink?: string)
 }
 
 @Component('base-cmp')
-export class BaseComponent extends HTMLElement {
+export class BaseComponent extends HTMLElement 
+{
   cssLink?: string;
   refs = new Map<string, Element>();
 
-  constructor(html: string = '') {
+  constructor(html: string = '') 
+  {
     super();
     this.attachShadow({ mode: 'open' });
 
     const {cssLink} = this.constructor.prototype;
-    if (cssLink) {
+    if (cssLink) 
+    {
       this.style.visibility = 'hidden';
 
       const link = document.createElement('link');

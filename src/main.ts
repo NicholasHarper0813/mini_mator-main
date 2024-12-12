@@ -8,14 +8,12 @@ import { Router } from './services/router/router.js';
 import { theme } from './services/theme.js';
 
 securityCheck();
-
 theme.initialisation();
 
 let appContainer: HTMLElement;
 let currentPage: PageComponent;
 
 const appRouter = new Router();
-
 appRouter.addRoute({
   name: 'home',
   path: /^\/(home)?$/gi,
@@ -47,6 +45,7 @@ appRouter.addRoute({
     return new ProjectComponent(id);
   },
 });
+
 appRouter.onChange = (newPage) => {
   const page = newPage || new HomeComponent();
   appContainer = appContainer || document.body.querySelector('.app') as HTMLElement;

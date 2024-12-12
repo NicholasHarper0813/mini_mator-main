@@ -1,10 +1,3 @@
-/**
- * Wrapper to trigger the ShareAPI
- *
- * @param title Share title
- * @param url Share URL
- * @param svgContent SVG content to share as string
- */
 export function share(title: string, url: string, file: File) {
   const basicShare = {
     url,
@@ -14,28 +7,26 @@ export function share(title: string, url: string, file: File) {
     ...basicShare,
     files: [file],
   };
-  if (!(navigator as any).canShare) {
+  if (!(navigator as any).canShare) 
+  {
     window.alert(`The sharing feature isn't available in your browser`);
-  } else if ((navigator as any).canShare(fullShare)) {
+  } 
+  else if ((navigator as any).canShare(fullShare)) 
+  {
     navigator.share(fullShare);
-  } else if ((navigator as any).canShare(basicShare)) {
+  } 
+  else if ((navigator as any).canShare(basicShare)) 
+  {
     navigator.share(basicShare);
-  } else {
+  } 
+  else 
+  {
     window.alert(`The sharing feature isn't available in your browser`);
   }
 }
 
-/**
- * Build a PNG from a SVG
- * This function uses canvas to fill the content
- * then will extract it to a PNG.
- * Sadly, this won't work on Firefox until the user
- * enable the canvas extraction permission.
- * 
- * @param svg SVG Element to transform to PNG
- * @returns Promise<File>
- */
-export function buildPNG(svg: SVGElement): Promise<File> {
+export function buildPNG(svg: SVGElement): Promise<File>
+{
   const canvas = document.createElement('canvas');
   canvas.width = parseInt(svg.getAttribute('width') || '0', 10);
   canvas.height = parseInt(svg.getAttribute('height') || '0', 10);
@@ -62,21 +53,12 @@ export function buildPNG(svg: SVGElement): Promise<File> {
   });
 }
 
-// Build the downloader anchor
 let downloadAnchor = document.createElement('a');
 downloadAnchor.style.display = 'none';
 document.body.appendChild(downloadAnchor);
 
-/**
- * Utility to start a download
- *
- * From http://jsfiddle.net/koldev/cw7w5/
- * >> +1 Good Job!
- *
- * @param svgContent SVG content for download
- * @param fileName File name for download
- */
-export function downloader(svgContent: BlobPart, fileName: string) {
+export function downloader(svgContent: BlobPart, fileName: string)
+{
   let blob = new Blob([svgContent], { type: 'octet/stream' }),
     url = window.URL.createObjectURL(blob);
   downloadAnchor.href = url;
@@ -87,16 +69,10 @@ export function downloader(svgContent: BlobPart, fileName: string) {
   }, 10);
 }
 
-/**
- * Security check
- * No need to go further, the cheap DRM is here.
- */
-export function securityCheck() {
-  // 1st step: Embedding
-  // I hate when my creations are embedded on another website
-  // without my permission and with 20 adverts around.
-  // But instead of blocking it, lets have fun.
-  if (window.top !== window.self) {
+export function securityCheck() 
+{
+  if (window.top !== window.self) 
+  {
     setInterval(() => {
       if (window.top?.document?.body) {
         const rotate = Math.cos(Date.now() / 1000) * 45;

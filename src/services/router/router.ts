@@ -12,7 +12,6 @@ export class Router
 {
   configs: Route[] = [];
   onChange = (newPage?: PageComponent) => {};
-
   constructor(public isDebugMode = true) 
   {
     this.hashChange = this.hashChange.bind(this);

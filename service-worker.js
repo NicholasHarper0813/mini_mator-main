@@ -44,9 +44,7 @@ var filesToCache = [
   './src/style.css'
 ];
 
-// Service worker from Google Documentation
 self.addEventListener('install', function (event) {
-  // Perform install steps
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.addAll(filesToCache);

@@ -48,30 +48,24 @@ export class CreateComponent extends PageComponent {
     const inputWidth = this.refs.get('inputWidth') as HTMLInputElement;
     const inputHeight = this.refs.get('inputHeight') as HTMLInputElement;
     const inputName = this.refs.get('inputName') as HTMLInputElement;
-
     inputWidth.value = '30';
     inputHeight.value = '30';
     const vals = { x: 30, y: 30 };
-
-    // Get the pad
     const pad = this.refs.get('pad') as SVGElement;
     const gestures = new TouchController(pad, true);
     gestures.on((type: GESTURE, state: STATE, data?: EventData) => {
-      if (type !== GESTURE.SCALE) {
+      if (type !== GESTURE.SCALE) 
+      {
         return;
       }
 
-      if (state === STATE.START) {
+      if (state === STATE.START) 
+      {
         vals.x = parseInt(inputWidth.value, 10);
         vals.y = parseInt(inputHeight.value, 10);
-      } else if (state === STATE.UPDATE) {
-        /**
-         *      0 - PI/8    : x
-         *   PI/8 - 3 PI/8  : x + y
-         * 3 PI/8 - 5 PI/8  :     y
-         * 5 PI/8 - 7 PI/8  : x + y
-         * 7 PI/8 - 8 PI/8  : x
-         */
+      } 
+      else if (state === STATE.UPDATE) 
+      {
         const directionBy8 = (Math.abs(data?.angle || 0) / Math.PI) * 8;
         const xOn = directionBy8 < 3 || directionBy8 > 5;
         const yOn = directionBy8 > 1 && directionBy8 < 7;
@@ -81,18 +75,13 @@ export class CreateComponent extends PageComponent {
       }
     });
 
-    // Listen for submit
     const form = this.refs.get('form') as HTMLFormElement;
     form.addEventListener('submit', e => {
-      // Prevent submitting the form
       e.preventDefault();
 
-      // Get item data
       const canvasWidth = parseInt(inputWidth.value, 10);
       const canvasHeight = parseInt(inputHeight.value, 10);
       const canvasName = inputName.value;
-
-      // Create a new item in store
       const storeItem = store.createItem(canvasName, {
         width: canvasWidth,
         height: canvasHeight,
@@ -100,7 +89,6 @@ export class CreateComponent extends PageComponent {
         content: ''
       });
 
-      // Redirect
       window.location.hash = `#/project/${storeItem.id}`;
       return false;
     })

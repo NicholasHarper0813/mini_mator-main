@@ -15,6 +15,16 @@
   --action-button-size: 1.6em;
 }
 
+@keyframes fad {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes daf {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 @media (min-width: 768px) {
   :root {
     --left-space: 100px;
@@ -24,16 +34,6 @@
   :root {
     --left-space: 36px;
   }
-}
-
-@keyframes fad {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes daf {
-  from { opacity: 1; }
-  to { opacity: 0; }
 }
 
 body {
@@ -116,7 +116,6 @@ a {
   cursor: pointer;
 }
 
-/* Utils */
 .unselectable {
   user-select: none;
   -moz-user-select: none;

@@ -24,7 +24,6 @@ export class ProjectComponent extends PageComponent {
     projectData.thickness = projectData.thickness || 3;
 
     this.title = `${item?.title} - minimator`;
-
     const surface = new SurfaceComponent(projectData);
     (window as any).ma = surface;
     surface.onResize();
@@ -32,6 +31,7 @@ export class ProjectComponent extends PageComponent {
       projectData.content = surface.content.innerHTML;
       store.updateItem(id, projectData);
     }
+    
     this.shadowRoot?.appendChild(surface);
     this.surface = surface;
 

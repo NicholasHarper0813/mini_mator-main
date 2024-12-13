@@ -48,11 +48,11 @@ export class CreateComponent extends PageComponent {
     const inputWidth = this.refs.get('inputWidth') as HTMLInputElement;
     const inputHeight = this.refs.get('inputHeight') as HTMLInputElement;
     const inputName = this.refs.get('inputName') as HTMLInputElement;
-    inputWidth.value = '30';
-    inputHeight.value = '30';
     const vals = { x: 30, y: 30 };
     const pad = this.refs.get('pad') as SVGElement;
     const gestures = new TouchController(pad, true);
+    inputWidth.value = '30';
+    inputHeight.value = '30';
     gestures.on((type: GESTURE, state: STATE, data?: EventData) => {
       if (type !== GESTURE.SCALE) 
       {

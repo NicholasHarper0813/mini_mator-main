@@ -1,4 +1,5 @@
-export interface ProjectItem {
+export interface ProjectItem 
+{
   width: number;
   height: number;
   thickness: number;

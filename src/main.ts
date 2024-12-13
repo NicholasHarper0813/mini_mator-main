@@ -3,8 +3,8 @@ import { ProjectComponent } from './components/project/project.cmp.js';
 import { CreateComponent } from './components/create/create.cmp.js';
 import { HomeComponent } from './components/home/home.cmp.js';
 import { PageComponent } from './components/page.cmp.js';
-import { AboutComponent } from './components/about/about.cmp.js';
 import { securityCheck } from './services/features.js';
+import { AboutComponent } from './components/about/about.cmp.js';
 import { theme } from './services/theme.js';
 
 securityCheck();
@@ -21,15 +21,29 @@ appRouter.addRoute({
 });
 
 appRouter.addRoute({
+  name: 'home',
+  path: /^\/(home)?$/gi,
+  buildView: () => new HomeComponent(),
+});
+
+appRouter.addRoute({
   name: 'about',
   path: /^\/about$/gi,
   buildView: () => new AboutComponent(),
 });
 
 appRouter.addRoute({
-  name: 'home',
-  path: /^\/(home)?$/gi,
-  buildView: () => new HomeComponent(),
+  name: 'project',
+  path: /^\/project\/([0-9]+)$/gi,
+  buildView: (args: string[]) => {
+    const id = parseInt(args[0])
+    if (isNaN(id) || id < 0) {
+      alert("Couldn't retrieve project data");
+      window.location.hash = '';
+      return;
+    }
+    return new ProjectComponent(id);
+  },
 });
 
 appRouter.onChange = (newPage) => {
@@ -45,19 +59,5 @@ appRouter.onChange = (newPage) => {
     return page.enter();
   });
 };
-
-appRouter.addRoute({
-  name: 'project',
-  path: /^\/project\/([0-9]+)$/gi,
-  buildView: (args: string[]) => {
-    const id = parseInt(args[0])
-    if (isNaN(id) || id < 0) {
-      alert("Couldn't retrieve project data");
-      window.location.hash = '';
-      return;
-    }
-    return new ProjectComponent(id);
-  },
-});
 
 appRouter.hashChange();

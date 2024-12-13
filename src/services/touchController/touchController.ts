@@ -47,14 +47,14 @@ export class TouchController
 
   constructor(public el: SVGElement, public touchOnly = false, public shortcut?: Shortcut) 
   {
-    this.pointers = new Map();
     this.callbacks = [];
-    this.mousemove = this.mousemove.bind(this);
-    this.mousedown = this.mousedown.bind(this);
-    this.mouseup = this.mouseup.bind(this);
+    this.pointers = new Map();
     this.touchstart = this.touchstart.bind(this);
     this.touchmove = this.touchmove.bind(this);
     this.touchend = this.touchend.bind(this);
+    this.mousemove = this.mousemove.bind(this);
+    this.mousedown = this.mousedown.bind(this);
+    this.mouseup = this.mouseup.bind(this);
     this.wheel = this.wheel.bind(this);
 
     this.el.addEventListener('touchstart', this.touchstart);
@@ -93,8 +93,8 @@ export class TouchController
 
   blockEvent(e: Event) 
   {
-    e.stopPropagation();
     e.preventDefault();
+    e.stopPropagation();
   }
 
   touchstart(e: TouchEvent) 
@@ -166,9 +166,11 @@ export class TouchController
     }
   }
 
-  touchend(e: TouchEvent) {
+  touchend(e: TouchEvent) 
+  {
     this.blockEvent(e);
-    for (let i = e.changedTouches.length - 1; i >= 0; i--) {
+    for (let i = e.changedTouches.length - 1; i >= 0; i--) 
+    {
       let touch = e.changedTouches.item(i);
       if (!touch) 
       {
@@ -236,15 +238,18 @@ export class TouchController
     }
   }
 
-  mouseup(e: MouseEvent) {
+  mouseup(e: MouseEvent) 
+  {
     this.blockEvent(e);
     this.setEventType(GESTURE.NONE);
   }
 
-  wheel(e: WheelEvent) {
+  wheel(e: WheelEvent) 
+  {
     this.blockEvent(e);
 
-    if (this.currentEvent !== GESTURE.SCALE) {
+    if (this.currentEvent !== GESTURE.SCALE) 
+    {
       this.setEventType(GESTURE.SCALE, {
         origin: { x: e.pageX, y: e.pageY },
         drag: { x: 0, y: 0 },
@@ -322,7 +327,8 @@ export class TouchController
     }
   }
 
-  setEventType(eventType: GESTURE, eventData?: EventData) {
+  setEventType(eventType: GESTURE, eventData?: EventData) 
+  {
     this.broadcast(STATE.END, this.lastData);
     this.currentEvent = eventType;
     this.lastData = undefined;
@@ -356,7 +362,8 @@ export class TouchController
     this.triggerUpdate(data);
   }
 
-  destroy() {
+  destroy() 
+  {
     this.el.removeEventListener('touchstart', this.touchstart);
     this.el.removeEventListener('touchmove', this.touchmove);
     this.el.removeEventListener('touchend', this.touchend);

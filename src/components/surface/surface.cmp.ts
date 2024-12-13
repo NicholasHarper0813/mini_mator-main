@@ -5,23 +5,26 @@ import { ProjectItem } from '../../models/projectItem.js';
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
 
-interface Coordinate {
+interface Coordinate 
+{
   x: number;
   y: number;
 }
 
-export enum SurfaceMode {
+export enum SurfaceMode 
+{
   PEN_MODE = 1,
   ERASER_MODE = 2
 }
 
 @Component('surface-cmp', './src/components/surface/surface.style.css')
-export class SurfaceComponent extends BaseComponent {
+export class SurfaceComponent extends BaseComponent 
+{
   history = new HistoryStack;
   mode: SurfaceMode = SurfaceMode.PEN_MODE;
-  el: SVGElement;
-  dots: SVGGElement;
   content: SVGGElement;
+  dots: SVGGElement;
+  el: SVGElement;
   
   width = 0;
   height = 0;
@@ -31,11 +34,11 @@ export class SurfaceComponent extends BaseComponent {
   thickness = 3;
   viewBox = [0, 0, 100, 100];
   rect = new DOMRect();
+  isMoveKeyPressed = false;
+  isCurrentEventMove = false;
   drawingStartPoint?: Coordinate;
   fngPoint?: Coordinate;
   firstDeleted?: SVGElement;
-  isMoveKeyPressed = false;
-  isCurrentEventMove = false;
   currentElement?: SVGLineElement | SVGPathElement;
   changeThrottle: number = 0;
   onChange = () => {};
@@ -159,7 +162,6 @@ export class SurfaceComponent extends BaseComponent {
         return;
       }
 
-      // Eraser mode
       if (this.mode === SurfaceMode.ERASER_MODE) 
       {
         var target = this.shadowRoot?.elementFromPoint(
@@ -207,7 +209,6 @@ export class SurfaceComponent extends BaseComponent {
         
         this.callToChange();
         return;
-
       }
 
       if (state === STATE.START) 
@@ -371,8 +372,7 @@ export class SurfaceComponent extends BaseComponent {
     const cnvOriginPx = this.coordToPoint(scrOriginPx);
     const cnvWidth = this.gap * this.width;
     const cnvHeight = this.gap * this.height;
-    if (
-      cnvOriginPx.x < 0 ||
+    if ( cnvOriginPx.x < 0 ||
       cnvOriginPx.x > cnvWidth ||
       cnvOriginPx.y < 0 ||
       cnvOriginPx.y > cnvHeight ) 
@@ -529,7 +529,8 @@ export class SurfaceComponent extends BaseComponent {
     return this.thickness;
   }
 
-  toggleGrid() {
+  toggleGrid() 
+  {
     if (this.dots.style.display === 'none') 
     {
       this.dots.style.display = 'inherit';
@@ -547,20 +548,19 @@ export class SurfaceComponent extends BaseComponent {
 
   extractSVG(margin = 2, scaleTo?: number) 
   {
+    const ratio = scaleTo ? (scaleTo / Math.max(width, height)) : 1;
+    const svg = this.el.cloneNode(true) as SVGElement;
     const doubleMargin = margin * 2;
     const offset = margin * this.gap;
     const width = (this.width + doubleMargin) * this.gap;
     const height = (this.height + doubleMargin) * this.gap;
-    const ratio = scaleTo ? (scaleTo / Math.max(width, height)) : 1;
     const newDotId = generateDotId();
-    const svg = this.el.cloneNode(true) as SVGElement;
     
     svg.setAttribute('width', `${Math.round(width * ratio)}`);
     svg.setAttribute('height', `${Math.round(height * ratio)}`);
     svg.setAttribute('viewBox', `${-offset},${-offset},${width},${height}`);
-    svg.querySelector(`pattern`)?.setAttribute('id', newDotId);
     svg.querySelector(`[data-ref="dots"]`)?.setAttribute('fill',`url('#${newDotId}')`);
-
+    svg.querySelector(`pattern`)?.setAttribute('id', newDotId);
     return svg;
   }
 
@@ -580,8 +580,8 @@ function generateDotId()
 }
 
 export function generateBaseSVG(data: ProjectItem) {
-  const gap = 20;
   const id = generateDotId();
+  const gap = 20;
   const viewBox = [
     0,
     0,

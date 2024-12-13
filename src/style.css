@@ -53,12 +53,14 @@ body
   transition: .5s filter;
   -webkit-tap-highlight-color: #f6c40822;
 }
-.app {
+.app 
+{
   background-color: white;
 }
 html,
 body,
-.app {
+.app
+{
   width: 100%;
   height: 100%;
 }
@@ -69,65 +71,73 @@ h3,
 h4,
 h5,
 h6,
-.title {
+.title 
+{
   font-family: var(--font-family-title);
   font-weight: normal;
   line-height: 1;
   text-shadow: 0.5px 0 currentColor, 1px 0 currentColor;
 }
 
-svg.feather {
+svg.feather 
+{
   fill: none;
-  stroke: currentColor;
   stroke-width: 2;
-  stroke-linecap: round;
+  stroke: currentColor;
   stroke-linejoin: round;
+  stroke-linecap: round;
   width: 1em;
   height: 1em;
 }
 
-a {
+a 
+{
   color: inherit;
 }
 
-.breadcrumb {
+.breadcrumb 
+{
   font-family: var(--font-family-title);
   color: inherit;
 }
+
 .breadcrumb + * {
   margin-top: 0;
 }
 
-.action-position {
-  position: absolute;
-  top: 1em;
+.action-position 
+{
   right: 1em;
+  top: 1em;
+  position: absolute;
   padding: 0;
 }
 
-.action-button {
-  display: flex;
-  align-items: center;
+.action-button 
+{
   justify-content: center;
+  align-items: center;
+  display: flex;
 }
 
-.action-button, .action-style {
-  height: var(--action-button-size);
+.action-button, .action-style 
+{
   width: var(--action-button-size);
-  
-  color: inherit;
-  border: 1px solid currentColor;
+  height: var(--action-button-size);
   border-radius: calc(var(--action-button-size)/2);
+  border: 1px solid currentColor;
   background: transparent;
-  font-size: 2em;
   text-decoration: none;
+  font-size: 2em;
+  color: inherit;
   cursor: pointer;
 }
 
-.unselectable {
+.unselectable 
+{
   user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
   -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
   -o-user-select: none;
 }

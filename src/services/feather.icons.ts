@@ -1,8 +1,3 @@
-/**
- * Lucide icons : lucide.dev
- * Fork of Feather Icons
- */
-
 const ICON_CATALOG: {[id: string]: string} = {
   grid: `
     <line x1="6" y1="6" x2="6" y2="6"></line>
@@ -89,15 +84,17 @@ const ICON_CATALOG: {[id: string]: string} = {
     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>`
 };
 
-export function icon(name: string, ref?: string, alt?:string) {
+export function icon(name: string, ref?: string, alt?:string) 
+{
   const iconData = ICON_CATALOG[name];
-  if (!iconData) {
+  if (!iconData) 
+  {
     throw new Error (`The '${name}' icon, doesn't exists.`);
   }
 
   const dataRef = ref ? `data-ref="${ref}"` : '';
-  const altWrap = alt ? `alt="${alt}"` : '';
   const titleWrap = alt ? `<title>${alt}</title>` : '';
+  const altWrap = alt ? `alt="${alt}"` : '';
 
   return `<svg ${dataRef} ${altWrap} class="feather" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     ${titleWrap}

@@ -14,16 +14,16 @@ export const theme = {
     this.setMode(store.getKey(themeKey) || ThemeMode.Light);
   },
 
+  toggleMode() 
+  {
+    const newTheme = this.currentMode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
+    this.setMode(newTheme);
+  }
+  
   setMode(mode: string) 
   {
     this.currentMode = mode;
     store.setKey(themeKey, mode);
     document.body.style.setProperty('--is-dark-mode', mode);
   },
-  
-  toggleMode() 
-  {
-    const newTheme = this.currentMode === ThemeMode.Light ? ThemeMode.Dark : ThemeMode.Light;
-    this.setMode(newTheme);
-  }
 }

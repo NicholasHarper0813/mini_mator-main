@@ -1,12 +1,13 @@
+import { StorageIndex } from '../../services/storage/storage.js';
+import { generateBaseSVG } from '../surface/surface.cmp.js';
 import { BaseComponent, Component } from '../base.cmp.js';
 import { timeago } from '../../services/utils.js';
-import { icon } from '../../services/feather.icons.js';
-import { StorageIndex } from '../../services/storage/storage.js';
 import { store } from '../../store.js';
-import { generateBaseSVG } from '../surface/surface.cmp.js';
+import { icon } from '../../services/feather.icons.js';
 
 @Component('home-card-cmp', './src/components/home-card/home-card.style.css')
-export class HomeCardComponent extends BaseComponent {
+export class HomeCardComponent extends BaseComponent 
+{
   constructor(data?: StorageIndex) {
     let template: string;
     if (data) 

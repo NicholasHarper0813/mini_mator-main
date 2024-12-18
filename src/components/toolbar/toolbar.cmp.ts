@@ -36,29 +36,30 @@ export class ToolbarComponent extends BaseComponent {
   penIcon = SVGElement.prototype;
   eraserIcon = SVGElement.prototype;
 
-  constructor(thickness: number) {
+  constructor(thickness: number) 
+  {
     super(template);
 
-    // Find 'Event' ref elements to dispatch 
     const refKeys = Array.from(this.refs.keys());
-    refKeys.forEach(key => {
-      if (!key.endsWith('Event')) {
+    refKeys.forEach(key => 
+    {
+      if (!key.endsWith('Event')) 
+      {
         return;
       }
       const eventName = key.substr(0, key.length - 5)
-      this.refs.get(key)?.addEventListener('click', () => {
+      this.refs.get(key)?.addEventListener('click', () => 
+      {
         this.listeners.forEach(l => l(eventName, null));
       });
     })
-
-    // Set surface mode
+    
     this.penIcon = this.refs.get('penIcon') as SVGElement;
     this.eraserIcon = this.refs.get('eraserIcon') as SVGElement;
     this.penIcon.style.display = 'none';
     this.eraserIcon.style.display = 'inherit';
     this.refs.get('toggleEraser')?.addEventListener('click', this.toggleEraser.bind(this));
 
-    // Listen for click on the tooltip toggler
     this.refs.get('toggleInfoTooltip')?.addEventListener('click', () => {
       this.refs.get('toggleInfoTooltip')?.classList.toggle('enabled');
     });
@@ -66,7 +67,6 @@ export class ToolbarComponent extends BaseComponent {
       this.refs.get('toggleInfoTooltip')?.classList.remove('enabled');
     });
 
-    // Block double tap zoom
     this.shadowRoot?.addEventListener('dblclick', e => {
       e.stopPropagation();
       e.preventDefault();
@@ -76,11 +76,13 @@ export class ToolbarComponent extends BaseComponent {
     this.setThickness(thickness);
   }
 
-  on(listener: listener) {
+  on(listener: listener)
+  {
     this.listeners.push(listener);
   }
 
-  toggleEraser() {
+  toggleEraser()
+  {
     this.isEraserOn = !this.isEraserOn;
     this.refs.get('eraser')?.classList.toggle('on');
     this.listeners.forEach(l => l('eraser', this.isEraserOn));
@@ -88,7 +90,8 @@ export class ToolbarComponent extends BaseComponent {
     this.eraserIcon.style.display = this.isEraserOn ? 'none' : 'inherit';
   }
 
-  setThickness(value: number) {
+  setThickness(value: number)
+  {
     const thickness = this.refs.get('thickness') as HTMLSpanElement;
     thickness.innerText = `${value}`;
   }

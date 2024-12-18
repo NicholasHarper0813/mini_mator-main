@@ -1,25 +1,32 @@
 :host, 
-svg.surface {
+svg.surface 
+{
   display: block;
   width: 100%;
   height: 100%;
 }
-:host {
+:host 
+{
   cursor: crosshair;
 }
-:host(.grab) {
+:host(.grab) 
+{
   cursor: grab;
 }
-svg.surface .pending {
+svg.surface .pending
+{
   stroke-dasharray: 1 10;
   animation: progress 2s linear 0s infinite;
 }
 
-@keyframes progress {
-  from {
+@keyframes progress
+{
+  from 
+  {
     stroke-dashoffset: 0;
   }
-  to {
+  to 
+  {
     stroke-dashoffset: 110;
   }
 }

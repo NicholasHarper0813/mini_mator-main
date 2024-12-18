@@ -4,19 +4,21 @@ import { ToolbarComponent } from '../toolbar/toolbar.cmp.js';
 import { SurfaceComponent, SurfaceMode } from '../surface/surface.cmp.js';
 import { TouchController } from '../../services/touchController/touchController.js';
 import { downloader, share, buildPNG } from '../../services/features.js';
-import { Shortcut } from '../../services/shortcut/shortcut.js';
 import { VivusComponent } from '../vivus/vivus.cmp.js';
+import { Shortcut } from '../../services/shortcut/shortcut.js';
 import { store } from '../../store.js';
 
 @Component('project-page', './src/components/project/project.style.css')
-export class ProjectComponent extends PageComponent {
+export class ProjectComponent extends PageComponent 
+{
   surface: SurfaceComponent;
   touchHandler: TouchController;
   toolbar: ToolbarComponent;
   shortcutBindings: Shortcut;
   vivusScreen?: VivusComponent;
 
-  constructor(id: number) {
+  constructor(id: number) 
+  {
     super('');
 
     const item = store.getIndex(id);
@@ -27,7 +29,8 @@ export class ProjectComponent extends PageComponent {
     const surface = new SurfaceComponent(projectData);
     (window as any).ma = surface;
     surface.onResize();
-    surface.onChange = () => {
+    surface.onChange = () => 
+    {
       projectData.content = surface.content.innerHTML;
       store.updateItem(id, projectData);
     }
@@ -48,7 +51,8 @@ export class ProjectComponent extends PageComponent {
 
     const toolbar = new ToolbarComponent(projectData.thickness);
     this.shadowRoot?.appendChild(toolbar);
-    toolbar.on((eventName, eventData) => {
+    toolbar.on((eventName, eventData) => 
+    {
       let svgOutput;
       switch (eventName) 
       {

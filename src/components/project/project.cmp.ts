@@ -3,9 +3,9 @@ import { PageComponent } from '../page.cmp.js';
 import { ToolbarComponent } from '../toolbar/toolbar.cmp.js';
 import { SurfaceComponent, SurfaceMode } from '../surface/surface.cmp.js';
 import { TouchController } from '../../services/touchController/touchController.js';
-import { downloader, share, buildPNG } from '../../services/features.js';
 import { VivusComponent } from '../vivus/vivus.cmp.js';
 import { Shortcut } from '../../services/shortcut/shortcut.js';
+import { downloader, share, buildPNG } from '../../services/features.js';
 import { store } from '../../store.js';
 
 @Component('project-page', './src/components/project/project.style.css')
@@ -20,11 +20,9 @@ export class ProjectComponent extends PageComponent
   constructor(id: number) 
   {
     super('');
-
     const item = store.getIndex(id);
     const projectData = store.getItem(id) || '{}';
     projectData.thickness = projectData.thickness || 3;
-
     this.title = `${item?.title} - minimator`;
     const surface = new SurfaceComponent(projectData);
     (window as any).ma = surface;
@@ -114,7 +112,8 @@ export class ProjectComponent extends PageComponent
     this.surface.destroy();
     
     return super.exit().then(() => {
-      if (this.vivusScreen) {
+      if (this.vivusScreen)
+      {
         this.shadowRoot?.removeChild(this.vivusScreen);
         this.vivusScreen = undefined;
       }

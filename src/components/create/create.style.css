@@ -1,16 +1,18 @@
 @import '../../style.css';
 
-:host {
+:host
+{
   padding: 0 var(--left-space);
   animation: fad .4s 1;
 }
-:host(.exit) {
+:host(.exit) 
+{
   animation: daf 0.4s 1;
   animation-fill-mode: forward;
 }
 
-/* Dimensions */
-input {
+input 
+{
   background: none;
   border: none;
   border-bottom: 1px solid currentColor;
@@ -18,23 +20,28 @@ input {
   font-family: inherit;
   border-radius: 0;
 }
-input[type='number'] {
+input[type='number']
+{
   width: 4ch;
   font-size: 32px;
 }
-input[type='text'] {
+input[type='text'] 
+{
   font-size: 24px;
 }
-input:focus {
+input:focus 
+{
   outline: dotted 1px currentColor;
   outline-offset: 3px;
 }
-svg.feather {
+svg.feather 
+{
   font-size: 2em;
   vertical-align: bottom;
 }
 
-button {
+button
+{
   font-size: 24px;
   border: 1px solid currentColor;
   padding: .5em 1em;
@@ -44,70 +51,84 @@ button {
   cursor: pointer;
 }
 
-.create-container {
+.create-container 
+{
   position: relative;
 }
 
-.create-column {
+.create-column
+{
   display: flex;
   flex-direction: column;
 }
-.create-column > * + * {
+.create-column > * + * 
+{
   margin-top: 16px;
 }
 
-.input-dimension {
+.input-dimension
+{
   display: flex;
   justify-content: space-between;
 }
 
-.input-dimension div {
+.input-dimension div 
+{
   display: flex;
   align-items: center;
 }
 
-.pad {
+.pad
+{
   display: flex;
   justify-content: center;
   align-items: end;
   padding: 1em;
 }
 
-.form-actions {
+.form-actions
+{
   text-align: center;
 }
 
-.fake-img {
+.fake-img 
+{
   background-color: transparent;
   background-image: radial-gradient(currentColor 0.6px, transparent 0.8px);
   background-size: 10px 10px;
   background-position: center center;
 }
 
-/* Small screen */
-@media (max-width: 480px) {
-  :host {
+@media (max-width: 480px) 
+{
+  :host
+  {
     display: block;
     padding: 32px 16px;
   }
-  .pad {
+  .pad 
+  {
     height: 220px;
   }
-  hr {
+  hr
+  {
     display: none;
   }
 }
 
-/* Large screen */
-@media (min-width: 481px) {
-  :host {
+@media (min-width: 481px)
+{
+  :host
+  {
     position: relative;
     display: flex;
     justify-content: center;
     flex-direction: column;
     height: 100%;
   }
-  .create-column {
+  
+  .create-column 
+  {
     width: 300px;
 
     border: 1px solid currentColor;
@@ -118,21 +139,22 @@ button {
     box-shadow: 8px 8px 0 currentColor;
   }
   
-  hr {
+  hr
+  {
     border: none;
     border-top: 1px solid currentColor;
     margin-right: -20px;
     margin-left: -20px;
   }
-
-  .pad {
+  
+  .pad 
+  {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 320px;
     right: 0;
     height: auto;
-
     margin: 0;
   }
 }

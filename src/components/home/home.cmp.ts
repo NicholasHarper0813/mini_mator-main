@@ -27,10 +27,7 @@ export class HomeComponent extends PageComponent
   constructor() 
   {
     super(template);
-
     const carousel = this.refs.get('carousel') as Element;
-    
-    console.log(ThemeSwitchComponent)
     const createCard = new HomeCardComponent();
     carousel.append(createCard);
     createCard.onclick = () => (location.hash = '#/create');

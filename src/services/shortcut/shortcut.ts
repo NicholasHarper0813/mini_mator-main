@@ -1,11 +1,13 @@
-export class Shortcut {
+export class Shortcut 
+{
   listeners: Map<string, listener[]> = new Map();
   isCtrlMetaOn = false;
 
   keyupListener: (event: KeyboardEvent) => void;
   keydownListener: (event: KeyboardEvent) => void;
 
-  constructor() {
+  constructor() 
+  {
     this.keyupListener = this.onKeyUp.bind(this);
     this.keydownListener = this.onKeyDown.bind(this);
     window.addEventListener('keyup', this.keyupListener);
@@ -85,7 +87,8 @@ export class Shortcut {
   dispatch(eventName: string, isOn?: boolean) 
   {
     let listeners = this.listeners.get(eventName) || [];
-    for (let listenerIndex in listeners) {
+    for (let listenerIndex in listeners) 
+    {
       listeners[listenerIndex](isOn);
     }
   }

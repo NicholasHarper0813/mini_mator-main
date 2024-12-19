@@ -1,6 +1,7 @@
 @import '../../style.css';
  
-button.action-style {
+button.action-style 
+{
   width: calc(var(--action-button-size) * 2);
   overflow: hidden;
   padding: 0;
@@ -9,13 +10,13 @@ button.action-style {
   color: white;
 }
 
-.switch {
+.switch 
+{
   position: relative;
   display: inline-block;
   width: calc(var(--action-button-size) - 2px);
   height: calc(var(--action-button-size) - 2px);
 
-  top: -1px;
   background-color: currentColor;
   border-radius: inherit;
   box-sizing: border-box;
@@ -25,20 +26,24 @@ button.action-style {
   transition: .4s left;
 }
 
-button.on .switch {
+button.on .switch 
+{
   left: .8em;
 }
 
-.switch svg {
+.switch svg 
+{
   top: calc((var(--action-button-size) - 1em) / 2 - 1px);
 }
 
-.switch svg:first-child {
+.switch svg:first-child 
+{
   position: absolute;
   left: -1.2em;
 }
 
-.switch svg:last-child {
+.switch svg:last-child 
+{
   position: absolute;
   right: -1.2em;
 }

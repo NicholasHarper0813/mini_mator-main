@@ -35,6 +35,7 @@
     --left-space: 100px;
   }
 }
+
 @media (max-width: 768px) 
 {
   :root 
@@ -53,6 +54,7 @@ body
   transition: .5s filter;
   -webkit-tap-highlight-color: #f6c40822;
 }
+
 .app 
 {
   background-color: white;
@@ -124,13 +126,13 @@ a
 {
   width: var(--action-button-size);
   height: var(--action-button-size);
-  border-radius: calc(var(--action-button-size)/2);
   border: 1px solid currentColor;
+  border-radius: calc(var(--action-button-size)/2);
   background: transparent;
-  text-decoration: none;
   font-size: 2em;
-  color: inherit;
+  text-decoration: none;
   cursor: pointer;
+  color: inherit;
 }
 
 .unselectable 

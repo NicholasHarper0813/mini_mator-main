@@ -15,10 +15,8 @@ import { PageComponent } from '../../components/page.cmp.js';
 describe('Router', () => {
   let aelMock: Mock;
   let relMock: Mock;
-
   let router: Router;
   let onChange: Mock;
-
   let pageA = new PageComponent('<hr/>');
   let buildViewA = mock(pageA);
   let routeA: Route = {

@@ -1,6 +1,6 @@
-import { samples } from './services/samples.js';
 import { Storage } from './services/storage/storage.js';
 import { ProjectItem } from './models/projectItem.js';
+import { samples } from './services/samples.js';
 
 export const store: Storage<ProjectItem> = new Storage('minimator-app');
 

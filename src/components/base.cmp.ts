@@ -4,7 +4,8 @@ export function Component(name: string, cssLink?: string)
   { 
     constructor.prototype.cssLink = cssLink;
     customElements.define(name, constructor);
-    if (cssLink) {
+    if (cssLink) 
+    {
       const link = document.createElement('link');
       link.setAttribute('rel', 'prefetch');
       link.setAttribute('href', cssLink);

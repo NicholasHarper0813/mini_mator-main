@@ -1,6 +1,7 @@
 type CB = ()=>void;
 type SubTest = [label: string, callback: CB, type: number];
-const LogLevel = {
+const LogLevel = 
+{
   info: 0,
   warn: 1,
   error: 2
@@ -11,45 +12,42 @@ const logPrefix = {
   [LogLevel.error]: '❌',
 }
 
-class TestBlock {
-  // Info
+class TestBlock 
+{
   level: number = LogLevel.info;
   passTests = 0;
   totalTests = 0;
 
-  // Procedures
   befores: CB[] = [];
   beforeEachs: CB[] = [];
   afters: CB[] = [];
   afterEachs: CB[] = [];
-
-  // Subs
+  
   children: TestBlock[] = [];
   subs: SubTest[] = [];
 
   constructor(public label: string, public parent?: TestBlock) {}
-
-  run() {
-    // Opening by running the before
+  run() 
+  {
     this.befores.forEach(cb => cb());
-
-    // List all the 'each' calls before running the tests
     const beforeEachs:CB[] = [...this.beforeEachs];
     const afterEachs:CB[] = [...this.afterEachs];
     let tBlock: TestBlock | undefined = this;
-    while(tBlock = tBlock.parent) {
+    while(tBlock = tBlock.parent)
+    {
       beforeEachs.splice(0,0, ...tBlock.beforeEachs);
       afterEachs.splice(afterEachs.length,0, ...tBlock.afterEachs);
     }
 
     this.subs.forEach(s => {
-      if(s[2]===0) {
-        // Its a IT
+      if(s[2]===0)
+      {
         beforeEachs.forEach(b => b());
         this.runIt(s);
         afterEachs.forEach(a => a());
-      } else {
-        // Its a describe
+      } 
+      else
+      {
         const desc = new TestBlock(s[0], this);
         currentDescribe = desc;
         s[1]();
@@ -58,21 +56,22 @@ class TestBlock {
       }
     })
 
-    // Set state
     this.setStats();
-
-    // Closing by running the afters
     this.afters.forEach(cb => cb());
   }
-  runIt(sub: SubTest) {
+  runIt(sub: SubTest) 
+  {
     assertRes = [];
     const label = sub[0];
     const itTB = new TestBlock(label, this);
     itTB.totalTests = 1;
     this.children.push(itTB);
-    try {
+    try
+    {
       sub[1]();
-    } catch(e: any) {
+    } 
+    catch(e: any) 
+    {
       itTB.level = LogLevel.error;
       itTB.label = `${label} : FAIL\n  > Error thrown during the test : ${e.message}`;
       return;
@@ -80,44 +79,60 @@ class TestBlock {
     let pos = 0;
     let neg = 0;
     let out = assertRes.map(test => {
-      if (test) {
+      if (test) 
+      {
         pos++;
         return '-';
-      } else {
+      } 
+      else 
+      {
         neg++;
         return 'F';
       }
     }).join('');
   
-    if (pos === 0 && neg === 0) {
+    if (pos === 0 && neg === 0) 
+    {
       itTB.level = LogLevel.warn;
       itTB.label = `${label} : NO TESTS`;
-    } else if (neg === 0) {
+    } 
+    else if (neg === 0) 
+    {
       itTB.level = LogLevel.info;
       itTB.label = `${label} : PASS (${pos} asserts)`;
       itTB.passTests++;
-    } else {
+    } 
+    else
+    {
       itTB.level = LogLevel.error;
       itTB.label = `${label} : FAIL (${pos}/${pos+neg} asserts) ${out}`;
     }
   }
 
-  print(){
+  print()
+  {
     const label = `${logPrefix[this.level]} ${this.label}`;
-    if (this.level !== LogLevel.info && this.children?.length) {
+    if (this.level !== LogLevel.info && this.children?.length)
+    {
       console.group(label);
-    } else if (this.children?.length) {
+    }
+    else if (this.children?.length) 
+    {
       console.groupCollapsed(label);
-    } else {
+    } 
+    else 
+    {
       console.log(label)
     }
     this.children.forEach(c => c.print());
-    if (this.children?.length) {
+    if (this.children?.length) 
+    {
       console.groupEnd();
     }
   }
 
-  setStats() {
+  setStats()
+  {
     this.children.forEach(c => {
       this.level = Math.max(this.level, c.level);
       this.passTests += c.passTests;
@@ -127,7 +142,6 @@ class TestBlock {
   }
 }
 
-// IT test runner
 let assertRes: boolean[] = [];
 export const assert = (a: any, b: any) => {
   assertRes.push(a === b);
@@ -136,17 +150,17 @@ export const assert = (a: any, b: any) => {
 let masterDescribe = new TestBlock('Specs');
 let currentDescribe = masterDescribe;
 
-// Public API
-export const beforeEach = (fn:CB) => currentDescribe.beforeEachs.push(fn);
-export const before = (fn:CB) => currentDescribe.befores.push(fn);
-export const afterEach = (fn:CB) => currentDescribe.afterEachs.push(fn);
-export const after = (fn:CB) => currentDescribe.afters.push(fn);
 export const describe = (label: string, fn:CB) => currentDescribe.subs.push([label, fn, 1]);
+export const before = (fn:CB) => currentDescribe.befores.push(fn);
+export const beforeEach = (fn:CB) => currentDescribe.beforeEachs.push(fn);
+export const after = (fn:CB) => currentDescribe.afters.push(fn);
+export const afterEach = (fn:CB) => currentDescribe.afterEachs.push(fn);
 export const it = (label: string, fn:CB) => currentDescribe.subs.push([label, fn, 0]);
 
 export function mock (valueToReturn?: any): Mock {
   const calls: any[] = [];
-  const m = function () {
+  const m = function () 
+  {
     calls.push(arguments);
     return valueToReturn;
   }
@@ -154,7 +168,8 @@ export function mock (valueToReturn?: any): Mock {
   m.andReturn = (newValueToReturn?: any) => valueToReturn = newValueToReturn;
   return m;
 }
-export interface Mock {
+export interface Mock 
+{
   (): any,
   calls: any[][],
   andReturn: (newValueToReturn?: any) => void
@@ -168,12 +183,15 @@ export function spyOn(object: {[prop: string]: any}, methodName: string, valueTo
   object[methodName] = newMock;
   return newMock;
 }
-export function resetAllMocks() {
+
+export function resetAllMocks() 
+{
   mocks.forEach(x => x());
   mocks.clear();
 }
 
-export function build () {
+export function build () 
+{
   masterDescribe.run();
   masterDescribe.print();
 }

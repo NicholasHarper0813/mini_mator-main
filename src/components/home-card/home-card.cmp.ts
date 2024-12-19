@@ -1,6 +1,6 @@
 import { StorageIndex } from '../../services/storage/storage.js';
-import { generateBaseSVG } from '../surface/surface.cmp.js';
 import { BaseComponent, Component } from '../base.cmp.js';
+import { generateBaseSVG } from '../surface/surface.cmp.js';
 import { timeago } from '../../services/utils.js';
 import { store } from '../../store.js';
 import { icon } from '../../services/feather.icons.js';
@@ -8,7 +8,8 @@ import { icon } from '../../services/feather.icons.js';
 @Component('home-card-cmp', './src/components/home-card/home-card.style.css')
 export class HomeCardComponent extends BaseComponent 
 {
-  constructor(data?: StorageIndex) {
+  constructor(data?: StorageIndex)
+  {
     let template: string;
     if (data) 
     {
@@ -38,7 +39,6 @@ export class HomeCardComponent extends BaseComponent
       `;
     }
     super(template);
-
     if (!data) 
     {
       return;

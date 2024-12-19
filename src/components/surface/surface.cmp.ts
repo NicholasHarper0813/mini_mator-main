@@ -43,7 +43,8 @@ export class SurfaceComponent extends BaseComponent
   changeThrottle: number = 0;
   onChange = () => {};
 
-  constructor(projectData:ProjectItem) {
+  constructor(projectData:ProjectItem)
+  {
     super(generateBaseSVG(projectData));
  
     this.el = this.refs.get('svg') as SVGElement;
@@ -56,7 +57,8 @@ export class SurfaceComponent extends BaseComponent
     this.onResize = this.onResize.bind(this);
   }
 
-  setDefaultViewBox() {
+  setDefaultViewBox()
+  {
     const viewBox = [
       0,
       0,

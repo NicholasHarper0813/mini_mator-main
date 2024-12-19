@@ -22,11 +22,13 @@ export enum GESTURE
 
 export interface EventData 
 {
-  origin: {
+  origin: 
+  {
     x: number;
     y: number;
   };
-  drag: {
+  drag:
+  {
     x: number;
     y: number;
   };
@@ -134,11 +136,13 @@ export class TouchController
       {
         let { length } = e.touches;
         const defaultData = {
-          origin: {
+          origin: 
+          {
             x: 0,
             y: 0,
           },
-          drag: {
+          drag: 
+          {
             x: 0,
             y: 0,
           },
@@ -203,11 +207,13 @@ export class TouchController
   mousedown(e: MouseEvent) {
     this.blockEvent(e);
     const defaultData = {
-      origin: {
+      origin: 
+      {
         x: e.pageX,
         y: e.pageY,
       },
-      drag: {
+      drag: 
+      {
         x: 0,
         y: 0,
       }
@@ -274,7 +280,8 @@ export class TouchController
 
   updateCurrentEvent(e: TouchEvent) 
   {
-    switch (this.currentEvent) {
+    switch (this.currentEvent) 
+    {
       case GESTURE.DRAG:
         const b = e.touches.item(0);
         if (!b) 

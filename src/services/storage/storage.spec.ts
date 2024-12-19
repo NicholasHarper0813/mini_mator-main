@@ -16,9 +16,12 @@ describe('Storage', () => {
 
   it('should throw an error when the prefix key is too short', () => {
     let catchedError: any;
-    try {
+    try 
+    {
       new Storage('');
-    } catch (e) {
+    }
+    catch (e) 
+    {
       catchedError = e;
     }
     assert(!!catchedError, true);
@@ -58,9 +61,12 @@ describe('Storage', () => {
     store.deleteItem(index.id);
     const sizePost = store.loadIndexes().length;
     let errorMsg;
-    try {
+    try 
+    {
       store.getItem(index.id);
-    } catch (e) {
+    } 
+    catch (e) 
+    {
       errorMsg = e.message;
     }
     assert(errorMsg, "Couldn't retrieve the item 3 from LocalStorage.");

@@ -1,6 +1,7 @@
 @import '../../style.css';
 
-:host {
+:host 
+{
   background: white;
   color: black;
   font-size: 14px;
@@ -10,23 +11,26 @@
   box-shadow: 4px 4px currentColor;
 }
 
-ul {
+ul 
+{
   margin-top: 0;
   list-style-type: square;
   padding-left: 1.5em;
 }
 
-li span {
+li span 
+{
   padding: .25em 0;
   display: inline-block;
 }
 
-.line {
+.line
+{
   display: block;
-  /* padding: .25em 0 .5em; */
 }
 
-.key {
+.key
+{
   background: white;
   border: 1px solid currentColor;
   padding: .125em .5em;
@@ -36,6 +40,7 @@ li span {
   font-size: 0.75em;
 }
 
-.keyspace {
+.keyspace 
+{
   min-width: 50px;
 }

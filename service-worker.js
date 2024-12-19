@@ -44,9 +44,11 @@ var filesToCache = [
   './src/style.css'
 ];
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', function (event) 
+{
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function (cache) {
+    caches.open(CACHE_NAME).then(function (cache) 
+    {
       return cache.addAll(filesToCache);
     })
   );

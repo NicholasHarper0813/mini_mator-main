@@ -3,15 +3,15 @@ import { ProjectComponent } from './components/project/project.cmp.js';
 import { CreateComponent } from './components/create/create.cmp.js';
 import { HomeComponent } from './components/home/home.cmp.js';
 import { PageComponent } from './components/page.cmp.js';
-import { securityCheck } from './services/features.js';
 import { AboutComponent } from './components/about/about.cmp.js';
+import { securityCheck } from './services/features.js';
 import { theme } from './services/theme.js';
 
 securityCheck();
 theme.initialisation();
 
-let currentPage: PageComponent;
 let appContainer: HTMLElement;
+let currentPage: PageComponent;
 const appRouter = new Router();
 
 appRouter.addRoute({

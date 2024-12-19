@@ -1,11 +1,13 @@
 export function share(title: string, url: string, file: File)
 {
-  const basicShare = {
+  const basicShare = 
+  {
     url,
     title,
   };
   
-  const fullShare = {
+  const fullShare =
+  {
     ...basicShare,
     files: [file],
   };
@@ -47,7 +49,8 @@ export function buildPNG(svg: SVGElement): Promise<File>
   return new Promise((res, rej) => {
     const baseimage = new Image();
     baseimage.style.background = '#fff';
-    baseimage.onload = function() {
+    baseimage.onload = function() 
+    {
       ctx.drawImage(baseimage,1,1, canvas.width, canvas.height);
       canvas.toBlob((blob) => {
         const file = new File([blob as Blob], 'minimator.png', { type: 'image/png' });
@@ -81,7 +84,8 @@ export function securityCheck()
   if (window.top !== window.self) 
   {
     setInterval(() => {
-      if (window.top?.document?.body) {
+      if (window.top?.document?.body)
+      {
         const rotate = Math.cos(Date.now() / 1000) * 45;
         window.top.document.body.style.transform = `rotate(${rotate}deg)`;
         window.document.body.style.transform = `rotate(${-rotate}deg)`;

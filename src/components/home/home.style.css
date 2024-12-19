@@ -6,7 +6,6 @@
   flex-direction: column;
   height: 100%;
   justify-content: center;
-
   --card-intro-delay: 0.2s;
 }
 

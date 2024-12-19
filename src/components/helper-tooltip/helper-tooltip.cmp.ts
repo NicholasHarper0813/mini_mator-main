@@ -44,9 +44,10 @@ const template = `
 `;
 
 @Component('helper-tooltip-cmp', './src/components/helper-tooltip/helper-tooltip.style.css')
-export class HelperTooltipComponent extends BaseComponent {
-
-  constructor() {
+export class HelperTooltipComponent extends BaseComponent 
+{
+  constructor() 
+  {
     super(template);
   }
 }

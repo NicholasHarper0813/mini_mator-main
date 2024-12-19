@@ -1,4 +1,5 @@
-export class Storage<T> {
+export class Storage<T>
+{
   indexes: StorageIndex[] = [];
   indexKey: string;
   indexNextId: string;
@@ -7,8 +8,10 @@ export class Storage<T> {
   lastDate = +Date.now();
   onCreate?: (newItem: StorageIndex)=>void;
 
-  constructor(prefixKey: string) {
-    if (!prefixKey || prefixKey.length < 5) {
+  constructor(prefixKey: string)
+  {
+    if (!prefixKey || prefixKey.length < 5)
+    {
       throw new Error('Storage: prefixKey too short');
     }
     this.indexKey = `${prefixKey}_index`;
@@ -17,45 +20,56 @@ export class Storage<T> {
     this.mapBaseKey = `${prefixKey}_map_`;
   }
 
-  loadIndexes() {
-    if (!this.indexes.length) {
+  loadIndexes()
+  {
+    if (!this.indexes.length) 
+    {
       this.indexes = JSON.parse(localStorage.getItem(this.indexKey) || '[]');
     }
     this.indexes.sort((a,b) => a.updated_at > b.updated_at ? -1 : 1);
     return this.indexes;
   }
 
-  saveIndexes() {
-    if (this.indexes) {
+  saveIndexes()
+  {
+    if (this.indexes) 
+    {
       localStorage.setItem(this.indexKey, JSON.stringify(this.indexes));
     }
     return this.indexes;
   }
 
-  getIndex(id: number) {
+  getIndex(id: number)
+  {
     return this.loadIndexes().find((x) => x.id === id);
   }
 
-  getItem(id: number):T {
+  getItem(id: number):T 
+  {
     const contentJSON = localStorage.getItem(this.indexBaseKey + id);
-    if (!contentJSON) {
+    if (!contentJSON)
+    {
       throw new Error(`Couldn't retrieve the item ${id} from LocalStorage.`);
     }
     return JSON.parse(contentJSON);
   }
 
-  renameItem(id: number, title: string) {
+  renameItem(id: number, title: string) 
+  {
     var item = this.getIndex(id);
-    if (!item) {
+    if (!item)
+    {
       throw new Error(`Storage: item ${id} not found.`);
     }
     item.title = title;
     this.saveIndexes();
   }
 
-  updateItem(id: number, content: T) {
+  updateItem(id: number, content: T) 
+  {
     var item = this.getIndex(id);
-    if (!item) {
+    if (!item) 
+    {
       throw new Error(`Storage: item ${id} not found.`);
     }
     item.updated_at = this.getDate();
@@ -64,11 +78,13 @@ export class Storage<T> {
     this.saveIndexes();
   }
 
-  getNextIndex() {
+  getNextIndex() 
+  {
     return parseInt(localStorage.getItem(this.indexNextId) || '0', 10);
   }
 
-  createItem(title: string, content?: T) {
+  createItem(title: string, content?: T)
+  {
     let id = this.getNextIndex();
     localStorage.setItem(this.indexNextId, `${id + 1}`);
 
@@ -81,10 +97,12 @@ export class Storage<T> {
     };
     this.loadIndexes().push(item);
     this.saveIndexes();
-    if (content) {
+    if (content) 
+    {
       this.updateItem(id, content);
     }
-    if (this.onCreate) {
+    if (this.onCreate) 
+    {
       this.onCreate(item);
     }
     return item;
@@ -92,7 +110,8 @@ export class Storage<T> {
 
   deleteItem(id: number) {
     var itemIndex = this.loadIndexes().findIndex((x) => x.id === id);
-    if (!~itemIndex) {
+    if (!~itemIndex)
+    {
       return null;
     }
     const removedItems = this.indexes.splice(itemIndex, 1);
@@ -101,22 +120,25 @@ export class Storage<T> {
     return removedItems;
   }
 
-
-  getKey(key: string) {
+  getKey(key: string) 
+  {
     return localStorage.getItem(`${this.mapBaseKey}_${key}`);
   }
 
-  setKey(key: string, value: string) {
+  setKey(key: string, value: string)
+  {
     localStorage.setItem(`${this.mapBaseKey}_${key}`, value);
   }
 
-  getDate() {
+  getDate()
+  {
     this.lastDate = Math.max(this.lastDate+1, +new Date());
     return this.lastDate;
   }
 }
 
-export interface StorageIndex {
+export interface StorageIndex 
+{
   id: number;
   title: string;
   created_at: number;

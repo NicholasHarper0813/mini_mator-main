@@ -6,8 +6,8 @@ import { icon } from '../../services/feather.icons.js';
 export class VivusComponent extends PageComponent 
 {
   vivus: Vivus | undefined;
-
-  constructor(rawSVG: string, onExit: () => void) {
+  constructor(rawSVG: string, onExit: () => void)
+  {
     const template = `
       ${rawSVG}
       <button class="action-button action-position" data-ref="closeButton">${icon('times')}</button>

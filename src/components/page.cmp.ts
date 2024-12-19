@@ -1,9 +1,11 @@
 import { BaseComponent } from './base.cmp.js';
 
-export class PageComponent extends BaseComponent {
+export class PageComponent extends BaseComponent 
+{
   title = 'minimator';
   currentTransition = Promise.resolve();
-  enter() {
+  enter() 
+  {
     this.currentTransition = this.currentTransition.then(() => {
       return new Promise((res, rej) => {
         setTimeout(res, 500);

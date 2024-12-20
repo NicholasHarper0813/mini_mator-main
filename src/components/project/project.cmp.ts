@@ -71,7 +71,8 @@ export class ProjectComponent extends PageComponent
           svgOutput = surface.extractSVG();
           this.vivusScreen = new VivusComponent(svgOutput.outerHTML, () => {
             this.vivusScreen?.exit().then(() => {
-              if (this.vivusScreen) {
+              if (this.vivusScreen)
+              {
                 this.shadowRoot?.removeChild(this.vivusScreen);
                 this.vivusScreen = undefined;
               }

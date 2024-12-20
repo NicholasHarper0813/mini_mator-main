@@ -11,11 +11,9 @@
   padding: 20px;
   border: 1px solid currentColor;
   border-radius: 3px;
-
   top: 0px;
   left: 0px;
   box-shadow: 8px 8px 0 currentColor;
-
   transition: 0.3s top, 0.3s left, 0.3s box-shadow;
 }
 

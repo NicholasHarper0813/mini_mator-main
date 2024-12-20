@@ -1,5 +1,5 @@
-import { describe, it, assert } from "../../tests/lib.js";
 import { AboutComponent } from "./about.cmp.js";
+import { describe, it, assert } from "../../tests/lib.js";
 
 describe('AboutComponent', () => {
   it('should build and display stuff', () => {

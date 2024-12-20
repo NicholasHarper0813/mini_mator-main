@@ -2,9 +2,7 @@ import { describe, it, assert, spyOn, resetAllMocks, beforeEach, afterEach, Mock
 import { VivusComponent } from "./vivus.cmp.js";
 
 describe('VivusComponent', () => {
-  
   var mockVivus: Mock;
-
   beforeEach(() => {
     mockVivus = spyOn(window, 'Vivus');
   });

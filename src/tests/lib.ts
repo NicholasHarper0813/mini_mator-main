@@ -6,6 +6,7 @@ const LogLevel =
   warn: 1,
   error: 2
 }
+
 const logPrefix = {
   [LogLevel.info]: '✅',
   [LogLevel.warn]: '🛎️',

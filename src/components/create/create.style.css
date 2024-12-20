@@ -10,7 +10,6 @@
   animation: daf 0.4s 1;
   animation-fill-mode: forward;
 }
-
 input 
 {
   background: none;
@@ -39,7 +38,6 @@ svg.feather
   font-size: 2em;
   vertical-align: bottom;
 }
-
 button
 {
   font-size: 24px;

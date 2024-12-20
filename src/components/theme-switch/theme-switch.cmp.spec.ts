@@ -3,10 +3,9 @@ import { theme, ThemeMode } from '../../services/theme.js';
 import { ThemeSwitchComponent } from "./theme-switch.cmp.js";
 
 describe('ThemeSwitchComponent', () => {
-
   var initialTheme: string;
   var mockToggleMode: Mock;
-
+  
   beforeEach(() => {
     initialTheme = theme.currentMode;
     mockToggleMode = spyOn(theme, 'toggleMode');

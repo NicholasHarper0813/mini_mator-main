@@ -10,7 +10,6 @@ export class ThemeSwitchComponent extends BaseComponent
 
   constructor() 
   {
-
     super(`
       <button data-ref="button" class="action-style">
         <div class="switch">
@@ -19,7 +18,6 @@ export class ThemeSwitchComponent extends BaseComponent
         </div>
       </button>
     `);
-
     this.button = this.refs.get('button') as HTMLButtonElement;
     this.button.addEventListener('click', this.switchListener.bind(this));
     this.setState();

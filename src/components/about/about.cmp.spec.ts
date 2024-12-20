@@ -1,9 +1,7 @@
 import { describe, it, assert } from "../../tests/lib.js";
-
 import { AboutComponent } from "./about.cmp.js";
 
 describe('AboutComponent', () => {
-  
   it('should build and display stuff', () => {
     const cmp = new AboutComponent();
     const title = cmp.shadowRoot?.querySelector('h1');

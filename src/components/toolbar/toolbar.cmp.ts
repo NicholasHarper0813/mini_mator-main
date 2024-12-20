@@ -1,6 +1,6 @@
 import { BaseComponent, Component } from '../base.cmp.js';
-import '../helper-tooltip/helper-tooltip.cmp.js';
 import { icon } from '../../services/feather.icons.js';
+import '../helper-tooltip/helper-tooltip.cmp.js';
 
 const template = `
   <a href="#/home">${icon('home', 'homeLink', 'Return to minimator homesceen')}</a>
@@ -59,19 +59,16 @@ export class ToolbarComponent extends BaseComponent {
     this.penIcon.style.display = 'none';
     this.eraserIcon.style.display = 'inherit';
     this.refs.get('toggleEraser')?.addEventListener('click', this.toggleEraser.bind(this));
-
     this.refs.get('toggleInfoTooltip')?.addEventListener('click', () => {
       this.refs.get('toggleInfoTooltip')?.classList.toggle('enabled');
     });
     this.refs.get('infoTooltip')?.addEventListener('click', () => {
       this.refs.get('toggleInfoTooltip')?.classList.remove('enabled');
     });
-
     this.shadowRoot?.addEventListener('dblclick', e => {
       e.stopPropagation();
       e.preventDefault();
     })
-
     this.classList.add('unselectable');
     this.setThickness(thickness);
   }
@@ -96,7 +93,8 @@ export class ToolbarComponent extends BaseComponent {
     thickness.innerText = `${value}`;
   }
 
-  destroy() {
+  destroy()
+  {
     this.listeners = [];
   }
 }

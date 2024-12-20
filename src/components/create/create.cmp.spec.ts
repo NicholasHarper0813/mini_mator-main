@@ -1,10 +1,8 @@
 import { describe, it, assert, spyOn, resetAllMocks, beforeEach, afterEach, Mock } from "../../tests/lib.js";
-
 import { store } from '../../store.js';
 import { CreateComponent } from "./create.cmp.js";
 
 describe('CreateComponent', () => {
-
   let currentLocation: string;
   let mockCreateItem: Mock;
 
@@ -12,6 +10,7 @@ describe('CreateComponent', () => {
     currentLocation = window.location.hash;
     mockCreateItem = spyOn(store, 'createItem', {id: 7});
   });
+  
   afterEach(() => {
     if (window.location.hash !== currentLocation) {
       window.location.hash = currentLocation;

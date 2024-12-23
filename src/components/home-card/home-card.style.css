@@ -2,17 +2,17 @@
 
 :host
 {
+  padding: 20px;
   position: relative;
   scroll-snap-align: start;
   display: inline-block;
   width: 60vw;
   max-width: 300px;
   margin: 10px 24px 12px 0;
-  padding: 20px;
-  border: 1px solid currentColor;
-  border-radius: 3px;
   top: 0px;
   left: 0px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
   box-shadow: 8px 8px 0 currentColor;
   transition: 0.3s top, 0.3s left, 0.3s box-shadow;
 }

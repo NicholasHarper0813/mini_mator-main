@@ -4,23 +4,25 @@
 {
   position: fixed;
   display: flex;
-  align-items: center;
   top: 1rem;
   right: 1rem;
-  background: black;
-  padding: 0 .1em;
   height: 1.65em;
-  border-radius: .25em;
   color: #fff;
   font-size: 22px;
+  align-items: center;
+  background: black;
+  padding: 0 .1em;
+  border-radius: .25em;
   animation: movedown .4s 1;
 }
+
 .count
 {
   display: inline-block;
   min-width: 2.5ch;
   text-align: center;
 }
+
 .split 
 {
   height: 100%;
@@ -58,6 +60,7 @@ svg + helper-tooltip-cmp
   top: 3.5em;
   right: 1px;
 }
+
 svg.enabled + helper-tooltip-cmp 
 {
   display: initial;
